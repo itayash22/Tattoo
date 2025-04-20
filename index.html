@@ -5,53 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Tattoo Preview</title>
   <!-- Cropper.js -->
-  <link  href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
   <style>
-    body {
-      font-family: sans-serif;
-      margin: 0; padding: 0;
-      display: flex; flex-direction: column;
-      align-items: center;
-      background: #f9f9f9;
-      color: #333;
-    }
-    .container {
-      width: 100%; max-width: 480px;
-      padding: 1rem;
-    }
-    /* Crop box styling */
+    body { font-family: sans-serif; margin:0; padding:0; display:flex; flex-direction:column; align-items:center; background:#f9f9f9; color:#333; }
+    .container { width:100%; max-width:480px; padding:1rem; position:relative; }
     .cropper-container .cropper-view-box,
-    .cropper-container .cropper-face {
-      border: 3px solid #4A90E2; /* thicker, high-contrast */
+    .cropper-container .cropper-face { border:3px solid #4A90E2; }
+    .image-wrapper { margin-top:1rem; }
+    #toggleBtn { position:absolute; top:1rem; right:1rem; z-index:1000; background:#4A90E2; color:#fff; border:none; padding:0.5rem 1rem; border-radius:0.25rem; font-size:0.9rem; cursor:pointer; }
+    .suggestions { display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem; }
+    .suggestions button { background:#eee; border:none; border-radius:0.25rem; padding:0.25rem 0.5rem; font-size:0.9rem; cursor:pointer; }
+    .hidden { display:none; }
+    button.primary { background:#4A90E2; color:#fff; border:none; padding:0.75rem 1rem; border-radius:0.25rem; font-size:1rem; width:100%; margin-top:0.5rem; }
+    img { width:100%; height:auto; display:block; }
+    #resultPage img { border-radius:0.25rem; }
+    /* Loading overlay */
+    #loadingOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5); display: flex;
+      align-items: center; justify-content: center;
+      color: #fff; font-size: 1.2rem; backdrop-filter: blur(2px);
+      opacity: 0; pointer-events: none; transition: opacity 0.3s;
     }
-    /* Suggested keywords toolbar */
-    .suggestions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
-    .suggestions button {
-      background: #eee;
-      border: none;
-      border-radius: 0.25rem;
-      padding: 0.25rem 0.5rem;
-      font-size: 0.9rem;
-      cursor: pointer;
-    }
-    .hidden { display: none; }
-    button.primary {
-      background: #4A90E2;
-      color: #fff;
-      border: none;
-      padding: 0.75rem 1rem;
-      border-radius: 0.25rem;
-      font-size: 1rem;
-      width: 100%;
-      margin-top: 0.5rem;
-    }
-    img { max-width: 100%; height: auto; display: block; }
-    #resultPage img { border-radius: 0.25rem; }
+    #loadingOverlay.active { opacity: 1; pointer-events: all; }
   </style>
 </head>
 <body>
@@ -59,31 +35,43 @@
     <h1>Preview Your Tattoo</h1>
     <p>Upload a photo of your body part and select the area for your tattoo.</p>
     <input type="file" id="fileInput" accept="image/*">
-    <div style="margin-top:1rem;">
-      <img id="uploadedImage" class="hidden" alt="Upload preview">
+    <button id="toggleBtn" class="hidden">Done</button>
+    <div class="image-wrapper hidden" id="imageWrapper">
+      <img id="uploadedImage" alt="Upload preview">
     </div>
     <div class="suggestions hidden" id="suggestions">
-      <!-- prompt helper tokens -->
       <button data-token=", super realistic">super realistic</button>
       <button data-token=", black & white">B&amp;W</button>
       <button data-token=", fine line">fine line</button>
       <button data-token=", minimalistic">minimalistic</button>
     </div>
-    <textarea id="promptInput" class="hidden" rows="2" placeholder="Describe your tattoo (e.g. tribal design, minimalistic)"></textarea>
-    <button id="submitBtn" class="primary hidden">Generate Preview</button>
+    <textarea id="promptInput" class="hidden" rows="2" placeholder="Describe your tattoo..."></textarea>
+    <button id="submitBtn" class="primary hidden" disabled>Generate Preview</button>
   </div>
 
   <div class="container hidden" id="resultPage">
     <h1>Your Preview Is Ready</h1>
-    <p>You can download your tattoo mockup below.</p>
+    <p>Download your tattoo mockup below.</p>
     <img id="resultImage" alt="Tattoo result">
     <button id="downloadBtn" class="primary">Download</button>
+    <div id="artistStub" class="hidden">
+      <h2>Recommended Artists</h2>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+        <div style="border:1px solid #ddd;padding:0.5rem;border-radius:0.25rem;">Artist A<br>⭐⭐⭐</div>
+        <div style="border:1px solid #ddd;padding:0.5rem;border-radius:0.25rem;">Artist B<br>⭐⭐⭐⭐</div>
+        <div style="border:1px solid #ddd;padding:0.5rem;border-radius:0.25rem;">Artist C<br>⭐⭐</div>
+      </div>
+    </div>
   </div>
+
+  <div id="loadingOverlay">Working on your design…</div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
   <script>
     const fileInput = document.getElementById('fileInput');
     const img = document.getElementById('uploadedImage');
+    const wrapper = document.getElementById('imageWrapper');
+    const toggleBtn = document.getElementById('toggleBtn');
     const promptInput = document.getElementById('promptInput');
     const suggestions = document.getElementById('suggestions');
     const submitBtn = document.getElementById('submitBtn');
@@ -91,77 +79,67 @@
     const resultPage = document.getElementById('resultPage');
     const resultImage = document.getElementById('resultImage');
     const downloadBtn = document.getElementById('downloadBtn');
+    const artistStub = document.getElementById('artistStub');
+    const loadingOverlay = document.getElementById('loadingOverlay');
 
     let cropper;
+    let isLocked = false;
+
+    // Enable submit button only when prompt has text
+    promptInput.addEventListener('input', () => {
+      submitBtn.disabled = !promptInput.value.trim();
+    });
 
     fileInput.addEventListener('change', () => {
-      const file = fileInput.files[0];
-      if (!file) return;
-      const url = URL.createObjectURL(file);
-      img.src = url;
-      img.classList.remove('hidden');
-
-      // Destroy previous cropper if exists
-      if (cropper) cropper.destroy();
-      cropper = new Cropper(img, {
-        viewMode: 1,
-        dragMode: 'crop',
-        autoCropArea: 0.7,
-        movable: true,
-        zoomable: true,
-        zoomOnTouch: true,       // pinch-to-zoom on mobile
-        cropBoxMovable: true,
-        cropBoxResizable: true,  // handles appear on hover
-        responsive: true,
-      });
-
-      // Show prompt & controls
-      promptInput.classList.remove('hidden');
-      suggestions.classList.remove('hidden');
-      submitBtn.classList.remove('hidden');
+      const file = fileInput.files[0]; if (!file) return;
+      if (cropper) { cropper.destroy(); cropper = null; }
+      isLocked = false;
+      toggleBtn.classList.add('hidden'); wrapper.classList.add('hidden');
+      promptInput.classList.add('hidden'); suggestions.classList.add('hidden'); submitBtn.classList.add('hidden');
+      img.onload = () => {
+        toggleBtn.classList.remove('hidden'); wrapper.classList.remove('hidden');
+        promptInput.classList.remove('hidden'); suggestions.classList.remove('hidden'); submitBtn.classList.remove('hidden');
+        cropper = new Cropper(img, { viewMode:1, dragMode:'crop', autoCropArea:0.7, movable:true, zoomable:true, cropBoxMovable:true, cropBoxResizable:true, responsive:true });
+        isLocked=false; cropper.enable(); const cont=cropper.container; if(cont) cont.style.touchAction='none'; toggleBtn.textContent='Done';
+      };
+      img.src = URL.createObjectURL(file);
     });
 
-    // Inject hidden tokens into prompt
-    suggestions.querySelectorAll('button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        promptInput.value += btn.dataset.token;
-      });
-    });
+    function toggleMode(e) {
+      e.preventDefault(); if(!cropper) return;
+      const cont = cropper.container; if(!cont) return;
+      if(!isLocked) {
+        cropper.disable(); cont.style.touchAction='pan-y'; cont.style.pointerEvents='none'; toggleBtn.textContent='Edit';
+      } else {
+        cropper.enable(); cont.style.touchAction='none'; cont.style.pointerEvents='auto'; toggleBtn.textContent='Done';
+      }
+      isLocked = !isLocked;
+    }
+    toggleBtn.addEventListener('click', toggleMode);
 
-    // Submit: send image + crop & prompt to backend
-    submitBtn.addEventListener('click', async () => {
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Generating...';
+    suggestions.querySelectorAll('button').forEach(btn => btn.addEventListener('click', () => {
+      promptInput.value += btn.dataset.token; promptInput.dispatchEvent(new Event('input'));
+    }));
 
-      const cropData = cropper.getData(true); // { x, y, width, height, ... }
-      const blob = await new Promise(res => cropper.getCroppedCanvas().toBlob(res, 'image/jpeg', 0.9));
-
-      const form = new FormData();
-      form.append('image', blob, 'crop.jpg');
-      form.append('prompt', promptInput.value);
-      form.append('cropData', JSON.stringify(cropData));
-
-      try {
-        const resp = await fetch('/api/generate-tattoo', { method: 'POST', body: form });
-        const { imageUrl } = await resp.json();
-
-        // Show result
+    submitBtn.addEventListener('click', () => {
+      // Show loading overlay
+      loadingOverlay.classList.add('active');
+      // Mock API call
+      setTimeout(() => {
+        // Hide overlay, show results
+        loadingOverlay.classList.remove('active');
         uploadPage.classList.add('hidden');
         resultPage.classList.remove('hidden');
-        resultImage.src = imageUrl;
+        // Mock tattooed image
+        resultImage.src = img.src; // Using same image for stub
+        artistStub.classList.remove('hidden');
+      }, 2000);
+    });
 
-        downloadBtn.addEventListener('click', () => {
-          const a = document.createElement('a');
-          a.href = imageUrl;
-          a.download = 'tattoo-preview.jpg';
-          a.click();
-        });
-      } catch (err) {
-        alert('Error generating preview');
-        console.error(err);
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Generate Preview';
+    downloadBtn.addEventListener('click', () => {
+      if (resultImage.src) {
+        const a = document.createElement('a');
+        a.href = resultImage.src; a.download = 'tattoo-preview.jpg'; a.click();
       }
     });
   </script>
