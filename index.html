@@ -11,14 +11,20 @@
     .container { width:100%; max-width:480px; padding:1rem; position:relative; }
     .cropper-container .cropper-view-box,
     .cropper-container .cropper-face { border:3px solid #4A90E2; }
-    .image-wrapper { margin-top:1rem; }
-    #toggleBtn { position:absolute; top:1rem; right:1rem; z-index:1000; background:#4A90E2; color:#fff; border:none; padding:0.5rem 1rem; border-radius:0.25rem; font-size:0.9rem; cursor:pointer; }
+    .image-wrapper {
+      margin: 1rem auto;
+      width: 80%;
+      /* Reduced width to allow gutters for page scroll */
+    }
     .suggestions { display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem; }
     .suggestions button { background:#eee; border:none; border-radius:0.25rem; padding:0.25rem 0.5rem; font-size:0.9rem; cursor:pointer; }
     .hidden { display:none; }
-    button.primary { background:#4A90E2; color:#fff; border:none; padding:0.75rem 1rem; border-radius:0.25rem; font-size:1rem; width:100%; margin-top:0.5rem; }
+    button.primary { background:#4A90E2; color:#fff; border:none; padding:0.75rem 1rem; border-radius:0.25rem; font-size:1rem; margin-top:0.5rem; }
     img { width:100%; height:auto; display:block; }
     #resultPage img { border-radius:0.25rem; }
+    #artistStub h2 { margin-top:1rem; }
+    #artistStub .artist-card { border:1px solid #ddd; padding:0.5rem; border-radius:0.25rem; width:100%; }
+    #artistStub .artist-details { font-size:0.85rem; color:#555; margin-top:0.25rem; }
     /* Loading overlay */
     #loadingOverlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -26,8 +32,22 @@
       align-items: center; justify-content: center;
       color: #fff; font-size: 1.2rem; backdrop-filter: blur(2px);
       opacity: 0; pointer-events: none; transition: opacity 0.3s;
+      flex-direction: column;
     }
     #loadingOverlay.active { opacity: 1; pointer-events: all; }
+    /* Spinner animation */
+    .spinner {
+      border: 4px solid rgba(255,255,255,0.3);
+      border-top: 4px solid #fff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -35,7 +55,6 @@
     <h1>Preview Your Tattoo</h1>
     <p>Upload a photo of your body part and select the area for your tattoo.</p>
     <input type="file" id="fileInput" accept="image/*">
-    <button id="toggleBtn" class="hidden">Done</button>
     <div class="image-wrapper hidden" id="imageWrapper">
       <img id="uploadedImage" alt="Upload preview">
     </div>
@@ -46,32 +65,46 @@
       <button data-token=", minimalistic">minimalistic</button>
     </div>
     <textarea id="promptInput" class="hidden" rows="2" placeholder="Describe your tattoo..."></textarea>
-    <button id="submitBtn" class="primary hidden" disabled>Generate Preview</button>
+    <button id="submitBtn" class="primary hidden">Generate Preview</button>
   </div>
 
   <div class="container hidden" id="resultPage">
     <h1>Your Preview Is Ready</h1>
-    <p>Download your tattoo mockup below.</p>
+    <p>Download or remix your tattoo mockup below.</p>
     <img id="resultImage" alt="Tattoo result">
-    <button id="downloadBtn" class="primary">Download</button>
+    <div style="display:flex; gap:4%;">
+      <button id="downloadBtn" class="primary">Download</button>
+      <button id="remixBtn" class="primary">Remix</button>
+    </div>
     <div id="artistStub" class="hidden">
       <h2>Recommended Artists</h2>
-      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-        <div style="border:1px solid #ddd;padding:0.5rem;border-radius:0.25rem;">Artist A<br>⭐⭐⭐</div>
-        <div style="border:1px solid #ddd;padding:0.5rem;border-radius:0.25rem;">Artist B<br>⭐⭐⭐⭐</div>
-        <div style="border:1px solid #ddd;padding:0.5rem;border-radius:0.25rem;">Artist C<br>⭐⭐</div>
+      <div style="display:flex;gap:1rem;flex-direction:column;">
+        <div class="artist-card">
+          <strong>Artist A</strong> ⭐⭐⭐<br>
+          <div class="artist-details">Specializes in tribal designs · 10+ yrs experience · Based in Austin, TX</div>
+        </div>
+        <div class="artist-card">
+          <strong>Artist B</strong> ⭐⭐⭐⭐<br>
+          <div class="artist-details">Fine line master · 500+ tattoos done · Based in Miami, FL</div>
+        </div>
+        <div class="artist-card">
+          <strong>Artist C</strong> ⭐⭐<br>
+          <div class="artist-details">Color work expert · 5 yrs experience · Based in Seattle, WA</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div id="loadingOverlay">Working on your design…</div>
+  <div id="loadingOverlay">
+    <div class="spinner"></div>
+    <div>Working on your design…</div>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
   <script>
     const fileInput = document.getElementById('fileInput');
     const img = document.getElementById('uploadedImage');
     const wrapper = document.getElementById('imageWrapper');
-    const toggleBtn = document.getElementById('toggleBtn');
     const promptInput = document.getElementById('promptInput');
     const suggestions = document.getElementById('suggestions');
     const submitBtn = document.getElementById('submitBtn');
@@ -79,68 +112,75 @@
     const resultPage = document.getElementById('resultPage');
     const resultImage = document.getElementById('resultImage');
     const downloadBtn = document.getElementById('downloadBtn');
+    const remixBtn = document.getElementById('remixBtn');
     const artistStub = document.getElementById('artistStub');
     const loadingOverlay = document.getElementById('loadingOverlay');
 
     let cropper;
-    let isLocked = false;
-
-    // Enable submit button only when prompt has text
-    promptInput.addEventListener('input', () => {
-      submitBtn.disabled = !promptInput.value.trim();
-    });
 
     fileInput.addEventListener('change', () => {
-      const file = fileInput.files[0]; if (!file) return;
+      const file = fileInput.files[0];
+      if (!file) return;
       if (cropper) { cropper.destroy(); cropper = null; }
-      isLocked = false;
-      toggleBtn.classList.add('hidden'); wrapper.classList.add('hidden');
-      promptInput.classList.add('hidden'); suggestions.classList.add('hidden'); submitBtn.classList.add('hidden');
+      // Hide UI until image loaded
+      wrapper.classList.add('hidden');
+      promptInput.classList.add('hidden');
+      suggestions.classList.add('hidden');
+      submitBtn.classList.add('hidden');
+
       img.onload = () => {
-        toggleBtn.classList.remove('hidden'); wrapper.classList.remove('hidden');
-        promptInput.classList.remove('hidden'); suggestions.classList.remove('hidden'); submitBtn.classList.remove('hidden');
-        cropper = new Cropper(img, { viewMode:1, dragMode:'crop', autoCropArea:0.7, movable:true, zoomable:true, cropBoxMovable:true, cropBoxResizable:true, responsive:true });
-        isLocked=false; cropper.enable(); const cont=cropper.container; if(cont) cont.style.touchAction='none'; toggleBtn.textContent='Done';
+        wrapper.classList.remove('hidden');
+        promptInput.classList.remove('hidden');
+        suggestions.classList.remove('hidden');
+        submitBtn.classList.remove('hidden');
+
+        cropper = new Cropper(img, {
+          viewMode: 1,
+          dragMode: 'crop',
+          autoCropArea: 0.7,
+          movable: true,
+          zoomable: true,
+          cropBoxMovable: true,
+          cropBoxResizable: true,
+          responsive: true,
+        });
+        // Block scroll inside crop area
+        const cont = cropper.container;
+        if (cont) cont.style.touchAction = 'none';
       };
       img.src = URL.createObjectURL(file);
     });
 
-    function toggleMode(e) {
-      e.preventDefault(); if(!cropper) return;
-      const cont = cropper.container; if(!cont) return;
-      if(!isLocked) {
-        cropper.disable(); cont.style.touchAction='pan-y'; cont.style.pointerEvents='none'; toggleBtn.textContent='Edit';
-      } else {
-        cropper.enable(); cont.style.touchAction='none'; cont.style.pointerEvents='auto'; toggleBtn.textContent='Done';
-      }
-      isLocked = !isLocked;
+    function showResultStub() {
+      loadingOverlay.classList.remove('active');
+      uploadPage.classList.add('hidden');
+      resultPage.classList.remove('hidden');
+      resultImage.src = img.src;
+      artistStub.classList.remove('hidden');
     }
-    toggleBtn.addEventListener('click', toggleMode);
-
-    suggestions.querySelectorAll('button').forEach(btn => btn.addEventListener('click', () => {
-      promptInput.value += btn.dataset.token; promptInput.dispatchEvent(new Event('input'));
-    }));
 
     submitBtn.addEventListener('click', () => {
-      // Show loading overlay
       loadingOverlay.classList.add('active');
-      // Mock API call
-      setTimeout(() => {
-        // Hide overlay, show results
-        loadingOverlay.classList.remove('active');
-        uploadPage.classList.add('hidden');
-        resultPage.classList.remove('hidden');
-        // Mock tattooed image
-        resultImage.src = img.src; // Using same image for stub
-        artistStub.classList.remove('hidden');
-      }, 2000);
+      setTimeout(showResultStub, 2000);
     });
 
     downloadBtn.addEventListener('click', () => {
       if (resultImage.src) {
-        const a = document.createElement('a');
-        a.href = resultImage.src; a.download = 'tattoo-preview.jpg'; a.click();
+        const a = document.createElement('a'); a.href = resultImage.src; a.download = 'tattoo-preview.jpg'; a.click();
       }
+    });
+
+    remixBtn.addEventListener('click', () => {
+      uploadPage.classList.remove('hidden');
+      resultPage.classList.add('hidden');
+      artistStub.classList.add('hidden');
+    });
+
+    // Suggestion chips click handler
+    suggestions.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        promptInput.value += btn.dataset.token;
+      });
     });
   </script>
 </body>
