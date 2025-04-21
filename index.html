@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Tattoo Preview</n  >
+  <title>AI Tattoo Preview</title>
+  <!-- Cropper.js CSS -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"
@@ -81,84 +82,6 @@
       cursor: pointer;
       margin-top: 0.5rem;
     }
-    .artists-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-    .artist-card {
-      width: 100%;
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 0.25rem;
-      overflow: hidden;
-      cursor: pointer;
-    }
-    .artist-card img {
-      width: 100%;
-      height: auto;
-    }
-    .artist-card .info {
-      padding: 0.5rem;
-      font-size: 0.9rem;
-    }
-    .artist-details {
-      background: #fafafa;
-      padding: 0.5rem;
-      border-top: 1px solid #eee;
-      display: none;
-    }
-    .artist-details .artist-desc {
-      font-size: 0.9rem;
-      color: #555;
-      margin-bottom: 0.5rem;
-    }
-    .artist-details .portfolio-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    .artist-details .portfolio-grid img {
-      width: 48%;
-      border-radius: 0.25rem;
-    }
-    #loadingOverlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 1.2rem;
-      backdrop-filter: blur(2px);
-      opacity: 0;
-      pointer-events: none;
-      flex-direction: column;
-      transition: opacity 0.3s;
-    }
-    #loadingOverlay.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-    .spinner {
-      border: 4px solid rgba(255, 255, 255, 0.3);
-      border-top: 4px solid #fff;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin-bottom: 1rem;
-    }
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
   </style>
 </head>
 <body>
@@ -179,21 +102,6 @@
     <button id="submitBtn" class="primary hidden">Generate Preview</button>
   </div>
 
-  <div class="container hidden" id="resultPage">
-    <h1>Your Tattoo Preview</h1>
-    <div class="image-wrapper">
-      <img id="resultImage" alt="Tattoo result" />
-    </div>
-    <button id="downloadBtn" class="primary">Download</button>
-    <button id="remixBtn" class="primary">Remix</button>
-    <div class="artists-grid" id="artistsGrid"></div>
-  </div>
-
-  <div id="loadingOverlay">
-    <div class="spinner"></div>
-    <div>Working on your design...</div>
-  </div>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" defer></script>
   <script defer>
     document.addEventListener('DOMContentLoaded', () => {
@@ -204,36 +112,6 @@
       const suggestions = document.getElementById('suggestions');
       const promptInput = document.getElementById('promptInput');
       const submitBtn = document.getElementById('submitBtn');
-      const uploadPage = document.getElementById('uploadPage');
-      const resultPage = document.getElementById('resultPage');
-      const resultImage = document.getElementById('resultImage');
-      const downloadBtn = document.getElementById('downloadBtn');
-      const remixBtn = document.getElementById('remixBtn');
-      const loadingOverlay = document.getElementById('loadingOverlay');
-      const artistsGrid = document.getElementById('artistsGrid');
-
-      const styleChips = [
-        { token: ', Minimal', file: 'Minimal.png', alt: 'Minimal' },
-        { token: ', Ornamental', file: 'ornamental.png', alt: 'Ornamental' },
-        { token: ', Script', file: 'script.png', alt: 'Script' },
-        { token: ', Tribal', file: 'tribal.png', alt: 'Tribal' },
-        { token: ', Watercolor', file: 'watercolor.png', alt: 'Watercolor' }
-      ];
-      function populateSuggestions() {
-        suggestions.innerHTML = '';
-        styleChips.forEach(s => {
-          const btn = document.createElement('button');
-          btn.dataset.token = s.token;
-          const icon = document.createElement('img');
-          icon.src = `assets/styles/${s.file}`;
-          icon.alt = s.alt;
-          btn.appendChild(icon);
-          btn.addEventListener('click', () => {
-            promptInput.value += s.token;
-          });
-          suggestions.appendChild(btn);
-        });
-      }
 
       fileInput.addEventListener('change', () => {
         const file = fileInput.files[0];
@@ -247,7 +125,6 @@
         img.onload = () => {
           wrapper.classList.remove('hidden');
           promptInput.classList.remove('hidden');
-          populateSuggestions();
           suggestions.classList.remove('hidden');
           submitBtn.classList.remove('hidden');
 
@@ -266,8 +143,6 @@
         };
         img.src = URL.createObjectURL(file);
       });
-
-      // ... rest of functionality (submit, remix, rendering artists, download, etc.) ...
     });
   </script>
 </body>
