@@ -13,15 +13,9 @@
     .image-wrapper { margin:1rem auto; width:80%; max-height:40vh; overflow:hidden; }
     #resultPage .image-wrapper { max-height:none; overflow:visible; }
     #resultPage .image-wrapper img { max-width:100%; max-height:60vh; width:auto; height:auto; display:block; margin:0 auto; }
-    .suggestions { display:flex; flex-wrap:wrap; gap:0.75rem; margin:0.5rem 0; justify-content:center; }
+    .suggestions { display:flex; flex-wrap:wrap; gap:0.5rem; margin:0.5rem 0; justify-content:center; }
     .suggestions button { background:transparent; border:none; padding:0; cursor:pointer; }
-    .suggestions button img {
-      width: 56px;
-      height: 56px;
-      object-fit: contain;
-      background-color: transparent;
-      border: none;
-    }
+    .suggestions button img { width:56px; height:56px; object-fit:contain; background-color:transparent; }
     .hidden { display:none; }
     button.primary { background:#4A90E2; color:#fff; border:none; padding:0.75rem 1rem; border-radius:0.25rem; width:100%; cursor:pointer; margin-top:0.5rem; }
     .artists-grid { display:flex; flex-direction:column; gap:1rem; margin-top:1rem; }
@@ -49,11 +43,15 @@
     </div>
     <!-- Style suggestion icons -->
     <div class="suggestions hidden" id="suggestions">
-      <button data-token=", minimal"><img src="assets/styles/Minimal.png" alt="Minimal"></button>
-      <button data-token=", ornamental"><img src="assets/styles/ornamental.png" alt="Ornamental"></button>
-      <button data-token=", script"><img src="assets/styles/script.png" alt="Script"></button>
-      <button data-token=", tribal"><img src="assets/styles/tribal.png" alt="Tribal"></button>
-      <button data-token=", watercolor"><img src="assets/styles/watercolor.png" alt="Watercolor"></button>
+      <button data-token=", dotwork"><img src="assets/assets/styles/dotwork%20.png" alt="Dotwork"></button>
+      <button data-token=", fine line"><img src="assets/assets/styles/fine%20line.png" alt="Fine Line"></button>
+      <button data-token=", Geometric"><img src="assets/assets/styles/Geometric.png" alt="Geometric"></button>
+      <button data-token=", Biomechanical"><img src="assets/assets/styles/Biomechanical.png" alt="Biomechanical"></button>
+      <button data-token=", Minimal"><img src="assets/assets/styles/Minimal.png" alt="Minimal"></button>
+      <button data-token=", Ornamental"><img src="assets/assets/styles/ornamental.png" alt="Ornamental"></button>
+      <button data-token=", Script"><img src="assets/assets/styles/script.png" alt="Script"></button>
+      <button data-token=", Tribal"><img src="assets/assets/styles/tribal.png" alt="Tribal"></button>
+      <button data-token=", Watercolor"><img src="assets/assets/styles/watercolor.png" alt="Watercolor"></button>
     </div>
     <textarea id="promptInput" class="hidden" rows="2" placeholder="Describe your tattoo..."></textarea>
     <button id="submitBtn" class="primary hidden">Generate Preview</button>
