@@ -102,48 +102,75 @@
     <button id="submitBtn" class="primary hidden">Generate Preview</button>
   </div>
 
+  <!-- Cropper.js JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" defer></script>
   <script defer>
-    document.addEventListener('DOMContentLoaded', () => {
-      let cropper;
-      const fileInput = document.getElementById('fileInput');
-      const img = document.getElementById('uploadedImage');
-      const wrapper = document.getElementById('imageWrapper');
-      const suggestions = document.getElementById('suggestions');
-      const promptInput = document.getElementById('promptInput');
-      const submitBtn = document.getElementById('submitBtn');
+  document.addEventListener('DOMContentLoaded', () => {
+    let cropper;
+    const fileInput = document.getElementById('fileInput');
+    const img = document.getElementById('uploadedImage');
+    const wrapper = document.getElementById('imageWrapper');
+    const suggestions = document.getElementById('suggestions');
+    const promptInput = document.getElementById('promptInput');
+    const submitBtn = document.getElementById('submitBtn');
 
-      fileInput.addEventListener('change', () => {
-        const file = fileInput.files[0];
-        if (!file) return;
-        if (cropper) cropper.destroy();
-        wrapper.classList.add('hidden');
-        promptInput.classList.add('hidden');
-        suggestions.classList.add('hidden');
-        submitBtn.classList.add('hidden');
+    // Define style chips
+    const styleChips = [
+      { token: ', Minimal', file: 'Minimal.png', alt: 'Minimal' },
+      { token: ', Ornamental', file: 'ornamental.png', alt: 'Ornamental' },
+      { token: ', Script', file: 'script.png', alt: 'Script' },
+      { token: ', Tribal', file: 'tribal.png', alt: 'Tribal' },
+      { token: ', Watercolor', file: 'watercolor.png', alt: 'Watercolor' }
+    ];
 
-        img.onload = () => {
-          wrapper.classList.remove('hidden');
-          promptInput.classList.remove('hidden');
-          suggestions.classList.remove('hidden');
-          submitBtn.classList.remove('hidden');
-
-          cropper = new Cropper(img, {
-            viewMode: 1,
-            dragMode: 'crop',
-            autoCropArea: 0.7,
-            movable: true,
-            zoomable: true,
-            cropBoxMovable: true,
-            cropBoxResizable: true,
-            responsive: true,
-          });
-          const cont = cropper.container;
-          if (cont) cont.style.touchAction = 'none';
-        };
-        img.src = URL.createObjectURL(file);
+    function populateSuggestions() {
+      suggestions.innerHTML = '';
+      styleChips.forEach(s => {
+        const btn = document.createElement('button');
+        btn.dataset.token = s.token;
+        const icon = document.createElement('img');
+        icon.src = `assets/styles/${s.file}`;
+        icon.alt = s.alt;
+        btn.appendChild(icon);
+        btn.addEventListener('click', () => {
+          promptInput.value += s.token;
+        });
+        suggestions.appendChild(btn);
       });
+    }
+
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      if (!file) return;
+      if (cropper) cropper.destroy();
+      wrapper.classList.add('hidden');
+      promptInput.classList.add('hidden');
+      suggestions.classList.add('hidden');
+      submitBtn.classList.add('hidden');
+
+      img.onload = () => {
+        wrapper.classList.remove('hidden');
+        promptInput.classList.remove('hidden');
+        populateSuggestions();
+        suggestions.classList.remove('hidden');
+        submitBtn.classList.remove('hidden');
+
+        cropper = new Cropper(img, {
+          viewMode: 1,
+          dragMode: 'crop',
+          autoCropArea: 0.7,
+          movable: true,
+          zoomable: true,
+          cropBoxMovable: true,
+          cropBoxResizable: true,
+          responsive: true
+        });
+        const cont = cropper.container;
+        if (cont) cont.style.touchAction = 'none';
+      };
+      img.src = URL.createObjectURL(file);
     });
+  });
   </script>
 </body>
 </html>
