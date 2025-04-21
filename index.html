@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Tattoo Preview</title>
   <!-- Cropper.js CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"
+  />
   <style>
     /* Global page padding for mobile spacing */
     body {
@@ -18,27 +21,33 @@
     .container {
       width: 100%;
       max-width: 480px;
-      margin: 0 auto;
+      margin: 0 auto 1rem;
       padding: 1rem;
       box-sizing: border-box;
       background: #fff;
       border-radius: 0.25rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
-    .cropper-container .cropper-view-box,
-    .cropper-container .cropper-face { border: 3px solid #4A90E2; }
     .image-wrapper {
       margin: 1rem 0;
       width: 100%;
       max-height: 40vh;
       overflow: hidden;
     }
-    #resultPage .image-wrapper { max-height: none; overflow: visible; }
-    #resultPage .image-wrapper img {
+    .image-wrapper img {
       width: 100%;
       height: auto;
       display: block;
-      margin: 0 auto;
+    }
+    textarea,
+    #promptInput {
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 0.25rem;
+      resize: vertical;
     }
     .suggestions {
       display: flex;
@@ -61,18 +70,11 @@
       display: block;
       margin: 0 auto;
     }
-    textarea, #promptInput {
-      width: 100%;
-      box-sizing: border-box;
-      margin-top: 0.5rem;
-      padding: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 0.25rem;
-      resize: vertical;
+    .hidden {
+      display: none !important;
     }
-    .hidden { display: none; }
     button.primary {
-      background: #4A90E2;
+      background: #4a90e2;
       color: #fff;
       border: none;
       padding: 0.75rem 1rem;
@@ -95,28 +97,41 @@
       overflow: hidden;
       cursor: pointer;
     }
-    .artist-card img { width: 100%; height: auto; }
-    .artist-card .info { padding: 0.5rem; font-size: 0.9rem; }
+    .artist-card img {
+      width: 100%;
+      height: auto;
+    }
+    .artist-card .info {
+      padding: 0.5rem;
+      font-size: 0.9rem;
+    }
     .artist-details {
       background: #fafafa;
       padding: 0.5rem;
       border-top: 1px solid #eee;
       display: none;
     }
-    .artist-details .artist-desc { font-size: 0.9rem; color: #555; margin-bottom: 0.5rem; }
+    .artist-details .artist-desc {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 0.5rem;
+    }
     .artist-details .portfolio-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    .artist-details .portfolio-grid img { width: 48%; border-radius: 0.25rem; }
+    .artist-details .portfolio-grid img {
+      width: 48%;
+      border-radius: 0.25rem;
+    }
     #loadingOverlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.5);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -133,7 +148,7 @@
       pointer-events: all;
     }
     .spinner {
-      border: 4px solid rgba(255,255,255,0.3);
+      border: 4px solid rgba(255, 255, 255, 0.3);
       border-top: 4px solid #fff;
       border-radius: 50%;
       width: 40px;
@@ -141,36 +156,51 @@
       animation: spin 1s linear infinite;
       margin-bottom: 1rem;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container" id="uploadPage">
     <h1>AI Tattoo Preview</h1>
     <p>Upload a photo and select where to preview a tattoo.</p>
-    <input type="file" id="fileInput" accept="image/*">
+    <input type="file" id="fileInput" accept="image/*" />
     <div class="image-wrapper hidden" id="imageWrapper">
-      <img id="uploadedImage" alt="Upload preview">
+      <img id="uploadedImage" alt="Upload preview" />
     </div>
     <div class="suggestions hidden" id="suggestions">
-      <button data-token=", dotwork"><img src="assets/styles/dotwork.png" alt="Dotwork"></button>
-      <button data-token=", line"><img src="assets/styles/fine_line.png" alt="Fine Line"></button>
-      <button data-token=", geometric"><img src="assets/styles/geometric.png" alt="Geometric"></button>
-      <button data-token=", biomechanical"><img src="assets/styles/biomechanical.png" alt="Biomechanical"></button>
-      <button data-token=", minimal"><img src="assets/styles/Minimal.png" alt="Minimal"></button>
-      <button data-token=", ornamental"><img src="assets/styles/Ornamental.png" alt="Ornamental"></button>
-      <button data-token=", script"><img src="assets/styles/Script.png" alt="Script"></button>
-      <button data-token=": tribal"><img src="assets/styles/Tribal.png" alt="Tribal"></button>
-      <button data-token=", watercolor"><img src="assets/styles/Watercolor.png" alt="Watercolor"></button>
+      <button data-token=", Minimal">
+        <img src="assets/styles/Minimal.png" alt="Minimal" />
+      </button>
+      <button data-token=", Ornamental">
+        <img src="assets/styles/Ornamental.png" alt="Ornamental" />
+      </button>
+      <button data-token=", Script">
+        <img src="assets/styles/Script.png" alt="Script" />
+      </button>
+      <button data-token=", Tribal">
+        <img src="assets/styles/Tribal.png" alt="Tribal" />
+      </button>
+      <button data-token=", Watercolor">
+        <img src="assets/styles/Watercolor.png" alt="Watercolor" />
+      </button>
     </div>
-    <textarea id="promptInput" class="hidden" rows="2" placeholder="Describe your tattoo..."></textarea>
+    <textarea
+      id="promptInput"
+      class="hidden"
+      rows="2"
+      placeholder="Describe your tattoo..."
+    ></textarea>
     <button id="submitBtn" class="primary hidden">Generate Preview</button>
   </div>
 
   <div class="container hidden" id="resultPage">
     <h1>Your Tattoo Preview</h1>
     <div class="image-wrapper">
-      <img id="resultImage" alt="Tattoo result">
+      <img id="resultImage" alt="Tattoo result" />
     </div>
     <button id="downloadBtn" class="primary">Download</button>
     <button id="remixBtn" class="primary">Remix</button>
@@ -182,116 +212,127 @@
     <div>Working on your design…</div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
-  <script>
-    let cropper, usageCount = 0;
-    const MAX_FREE = 5;
-    const artistsData = [
-      {id:1,name:'Artist A',rating:3,location:'Austin, TX',image:'https://via.placeholder.com/150',specialty:'Tribal',likes:120,portfolio:['https://via.placeholder.com/100','https://via.placeholder.com/100']},
-      {id:2,name:'Artist B',rating:4,location:'Miami, FL',image:'https://via.placeholder.com/150',specialty:'Fine Line',likes:250,portfolio:['https://via.placeholder.com/100','https://via.placeholder.com/100']},
-      {id:3,name:'Artist C',rating:2,location:'Seattle, WA',image:'https://via.placeholder.com/150',specialty:'Color Work',likes:80,portfolio:['https://via.placeholder.com/100','https://via.placeholder.com/100']},
-    ];
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" defer></script>
+  <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      let cropper;
+      const fileInput = document.getElementById('fileInput');
+      const img = document.getElementById('uploadedImage');
+      const wrapper = document.getElementById('imageWrapper');
+      const suggestions = document.getElementById('suggestions');
+      const promptInput = document.getElementById('promptInput');
+      const submitBtn = document.getElementById('submitBtn');
+      const uploadPage = document.getElementById('uploadPage');
+      const resultPage = document.getElementById('resultPage');
+      const resultImage = document.getElementById('resultImage');
+      const downloadBtn = document.getElementById('downloadBtn');
+      const remixBtn = document.getElementById('remixBtn');
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      const artistsGrid = document.getElementById('artistsGrid');
 
-    const fileInput = document.getElementById('fileInput');
-    const img = document.getElementById('uploadedImage');
-    const wrapper = document.getElementById('imageWrapper');
-    const suggestions = document.getElementById('suggestions');
-    const promptInput = document.getElementById('promptInput');
-    const submitBtn = document.getElementById('submitBtn');
-    const uploadPage = document.getElementById('uploadPage');
-    const resultPage = document.getElementById('resultPage');
-    const resultImage = document.getElementById('resultImage');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const remixBtn = document.getElementById('remixBtn');
-    const loadingOverlay = document.getElementById('loadingOverlay');
-    const artistsGrid = document.getElementById('artistsGrid');
+      fileInput.addEventListener('change', () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+        if (cropper) cropper.destroy();
+        wrapper.classList.add('hidden');
+        promptInput.classList.add('hidden');
+        suggestions.classList.add('hidden');
+        submitBtn.classList.add('hidden');
 
-    fileInput.addEventListener('change', () => {
-      const file = fileInput.files[0];
-      if (!file) return;
-      if (cropper) cropper.destroy();
-      wrapper.classList.add('hidden');
-      promptInput.classList.add('hidden');
-      suggestions.classList.add('hidden');
-      submitBtn.classList.add('hidden');
+        img.onload = () => {
+          wrapper.classList.remove('hidden');
+          promptInput.classList.remove('hidden');
+          suggestions.classList.remove('hidden');
+          submitBtn.classList.remove('hidden');
 
-      img.onload = () => {
-        wrapper.classList.remove('hidden');
-        promptInput.classList.remove('hidden');
-        suggestions.classList.remove('hidden');
-        submitBtn.classList.remove('hidden');
-
-        cropper = new Cropper(img, {
-          viewMode: 1,
-          dragMode: 'crop',
-          autoCropArea: 0.7,
-          movable: true,
-          zoomable: true,
-          cropBoxMovable: true,
-          cropBoxResizable: true,
-          responsive: true,
-        });
-        const cont = cropper.container;
-        if (cont) cont.style.touchAction = 'none';
-      };
-      img.src = URL.createObjectURL(file);
-    });
-
-    function renderArtists() {
-      artistsGrid.innerHTML = '';
-      artistsData.forEach(a => {
-        const card = document.createElement('div');
-        card.className = 'artist-card';
-        card.innerHTML = 
-          `<img src="${a.image}" alt="${a.name}">` +
-          `<div class="info"><strong>${a.name}</strong><br>` +
-          `Rating: ${'⭐'.repeat(a.rating)}<br>${a.location}</div>` +
-          `<div class="artist-details">` +
-            `<div class="artist-desc">${a.specialty} specialist · ${a.likes} likes</div>` +
-            `<div class="portfolio"><h3>Portfolio</h3><div class="portfolio-grid">` +
-              a.portfolio.map(src => `<img src="${src}" alt="Portfolio">`).join('') +
-            `</div></div>` +
-            `<textarea rows="3" placeholder="hi ${a.name}! I am checking out tattoo ideas on TattooSite and wanted to know your thoughts on this tattoo..."></textarea>` +
-            `<button class="primary" onclick="alert('Message sent!')">Send Message</button>` +
-          `</div>`;
-        card.querySelector('.info').addEventListener('click', () => {
-          const details = card.querySelector('.artist-details');
-          const open = details.style.display === 'block';
-          document.querySelectorAll('.artist-details').forEach(d => d.style.display = 'none');
-          details.style.display = open ? 'none' : 'block';
-        });
-        artistsGrid.appendChild(card);
+          cropper = new Cropper(img, {
+            viewMode: 1,
+            dragMode: 'crop',
+            autoCropArea: 0.7,
+            movable: true,
+            zoomable: true,
+            cropBoxMovable: true,
+            cropBoxResizable: true,
+            responsive: true,
+          });
+          const cont = cropper.container;
+          if (cont) cont.style.touchAction = 'none';
+        };
+        img.src = URL.createObjectURL(file);
       });
-    }
 
-    submitBtn.addEventListener('click', () => {
-      loadingOverlay.classList.add('active');
-      setTimeout(() => {
-        loadingOverlay.classList.remove('active');
-        uploadPage.classList.add('hidden');
-        resultPage.classList.remove('hidden');
-        resultImage.src = img.src;
-        renderArtists();
-      }, 2000);
-    });
+      // Mock artist data
+      const artistsData = [
+        { id: 1, name: 'Artist A', rating: 3, location: 'Austin, TX', image: 'https://via.placeholder.com/150', specialty: 'Tribal', likes: 120, portfolio: ['https://via.placeholder.com/100', 'https://via.placeholder.com/100'] },
+        { id: 2, name: 'Artist B', rating: 4, location: 'Miami, FL', image: 'https://via.placeholder.com/150', specialty: 'Fine Line', likes: 250, portfolio: ['https://via.placeholder.com/100', 'https://via.placeholder.com/100'] },
+        { id: 3, name: 'Artist C', rating: 2, location: 'Seattle, WA', image: 'https://via.placeholder.com/150', specialty: 'Color Work', likes: 80, portfolio: ['https://via.placeholder.com/100', 'https://via.placeholder.com/100'] },
+      ];
 
-    remixBtn.addEventListener('click', () => {
-      uploadPage.classList.remove('hidden');
-      resultPage.classList.add('hidden');
-    });
-
-    downloadBtn.addEventListener('click', () => {
-      if (resultImage.src) {
-        const a = document.createElement('a');
-        a.href = resultImage.src;
-        a.download = 'tattoo-preview.jpg';
-        a.click();
+      function renderArtists() {
+        artistsGrid.innerHTML = '';
+        artistsData.forEach(a => {
+          const card = document.createElement('div');
+          card.className = 'artist-card';
+          card.innerHTML = `
+            <img src="${a.image}" alt="${a.name}" />
+            <div class="info"><strong>${a.name}</strong><br />
+              Rating: ${'⭐'.repeat(a.rating)}<br />
+              ${a.location}
+            </div>
+            <div class="artist-details">
+              <div class="artist-desc">${a.specialty} specialist · ${a.likes} likes</div>
+              <div class="portfolio">
+                <h3>Portfolio</h3>
+                <div class="portfolio-grid">
+                  ${a.portfolio.map(src => `<img src="${src}" alt="Portfolio" />`).join('')}
+                </div>
+              </div>
+              <textarea rows="3" placeholder="hi ${a.name}! I am checking out tattoo ideas on TattooSite and wanted to know your thoughts on this tattoo..."></textarea>
+              <button class="primary" onclick="alert('Message sent!')">Send Message</button>
+            </div>
+          `;
+          card.querySelector('.info').addEventListener('click', () => {
+            const details = card.querySelector('.artist-details');
+            const open = details.style.display === 'block';
+            document.querySelectorAll('.artist-details').forEach(d => d.style.display = 'none');
+            details.style.display = open ? 'none' : 'block';
+          });
+          artistsGrid.appendChild(card);
+        });
       }
-    });
 
-    suggestions.querySelectorAll('button').forEach(btn =>
-      btn.addEventListener('click', () => promptInput.value += btn.dataset.token)
-    );
+      submitBtn.addEventListener('click', () => {
+        loadingOverlay.classList.add('active');
+        setTimeout(() => {
+          loadingOverlay.classList.remove('active');
+          uploadPage.classList.add('hidden');
+          resultPage.classList.remove('hidden');
+          resultImage.src = document.getElementById('uploadedImage').src;
+          renderArtists();
+        }, 2000);
+      });
+
+      remixBtn.addEventListener('click', () => {
+        uploadPage.classList.remove('hidden');
+        resultPage.classList.add('hidden');
+      });
+
+      downloadBtn.addEventListener('click', () => {
+        const src = document.getElementById('resultImage').src;
+        if (src) {
+          const a = document.createElement('a');
+          a.href = src;
+          a.download = 'tattoo-preview.jpg';
+          a.click();
+        }
+      });
+
+      suggestions.querySelectorAll('button').forEach(btn =>
+        btn.addEventListener('click', () => {
+          promptInput.value += btn.dataset.token;
+        })
+      );
+    });
   </script>
 </body>
 </html>
