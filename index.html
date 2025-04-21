@@ -19,18 +19,21 @@
       /* tighter row spacing, wider columns */
       row-gap: 0.25rem;
       column-gap: 1rem;
-      /* padding from edges */
-      padding: 0.5rem 1rem;
-      /* vertical margin */
-      margin: 0.5rem 0;
+      /* full width and centered */
+      width: 100%;
+      margin: 0.5rem auto;
       justify-content: center;
+      padding: 0;
     }
     .suggestions button { background:transparent; border:none; padding:0; cursor:pointer; }
     .suggestions button img {
-      width: 72px;
-      height: 72px;
+      /* 30% larger than 72px */
+      width: 94px;
+      height: 94px;
       object-fit: contain;
       background-color: transparent;
+      display: block;
+      margin: 0 auto;
     }
     .hidden { display:none; }
     button.primary { background:#4A90E2; color:#fff; border:none; padding:0.75rem 1rem; border-radius:0.25rem; width:100%; cursor:pointer; margin-top:0.5rem; }
