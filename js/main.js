@@ -13,28 +13,31 @@ const downloadBtn = document.getElementById('downloadBtn');
 
 let cropper;
 
-// allow native scroll when touching outside the crop box
+// Enable native page scroll when touching outside the crop box
 document.addEventListener('touchstart', (e) => {
   if (!cropper) return;
-  // only intercept if starting in the Cropper container
+  // Only intercept touches within Cropper's overlay
   if (!e.target.closest('.cropper-container')) return;
-  // if touch is outside the crop box, disable cropper
+  // If touch starts outside the crop box, disable Cropper
   if (!e.target.closest('.cropper-crop-box')) {
     cropper.disable();
-    const reenable = (e2) => {
-      if (e2.target.closest('.cropper-crop-box')) {
+    // Re-enable on next touch inside the crop box
+    const handleReenable = (ev) => {
+      if (ev.target.closest('.cropper-crop-box')) {
         cropper.enable();
-        document.removeEventListener('touchstart', reenable, true);
+        document.removeEventListener('touchstart', handleReenable, true);
       }
     };
-    document.addEventListener('touchstart', reenable, true);
+    document.addEventListener('touchstart', handleReenable, true);
   }
 }, true);
 
+// Initialize Cropper when a file is selected
 fileInput.addEventListener('change', () => {
   const file = fileInput.files[0];
   if (!file) return;
-  img.src = URL.createObjectURL(file);
+  const url = URL.createObjectURL(file);
+  img.src = url;
   img.classList.remove('hidden');
 
   cropper?.destroy();
@@ -45,15 +48,16 @@ fileInput.addEventListener('change', () => {
   submitBtn.classList.remove('hidden');
 });
 
-// hook up the “best‐practice” buttons
+// Attach keyword helper buttons
 attachPromptButtons(suggestions, promptInput);
 
+// Handle the Generate Preview button
 submitBtn.addEventListener('click', async () => {
   submitBtn.disabled = true;
   submitBtn.textContent = 'Generating...';
 
   const cropData = cropper.getData(true);
-  const blob = await new Promise(res => 
+  const blob = await new Promise(res =>
     cropper.getCroppedCanvas().toBlob(res, 'image/jpeg', 0.9)
   );
 
@@ -65,9 +69,11 @@ submitBtn.addEventListener('click', async () => {
   try {
     const resp = await fetch('/api/generate-tattoo', { method: 'POST', body: form });
     const { imageUrl } = await resp.json();
+
     uploadPage.classList.add('hidden');
     resultPage.classList.remove('hidden');
     resultImage.src = imageUrl;
+
     downloadBtn.addEventListener('click', () => {
       const a = document.createElement('a');
       a.href = imageUrl;
