@@ -1,186 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AI Tattoo Preview</title>
   <!-- Cropper.js CSS -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"
-  />
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 1rem;
-      background: #f9f9f9;
-      color: #333;
-    }
-    .container {
-      width: 100%;
-      max-width: 480px;
-      margin: 0 auto 1rem;
-      padding: 1rem;
-      box-sizing: border-box;
-      background: #fff;
-      border-radius: 0.25rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    .image-wrapper {
-      margin: 1rem 0;
-      width: 100%;
-      max-height: 40vh;
-      overflow: hidden;
-    }
-    .image-wrapper img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    textarea,
-    #promptInput {
-      width: 100%;
-      box-sizing: border-box;
-      margin-top: 0.5rem;
-      padding: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 0.25rem;
-      resize: vertical;
-    }
-    .suggestions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      justify-content: center;
-      margin: 0.5rem 0;
-    }
-    .suggestions button {
-      background: transparent;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-    }
-    .suggestions button img {
-      width: 94px;
-      height: 94px;
-      object-fit: contain;
-      background: transparent;
-      display: block;
-      margin: 0 auto;
-    }
-    .hidden {
-      display: none !important;
-    }
-    button.primary {
-      background: #4a90e2;
-      color: #fff;
-      border: none;
-      padding: 0.75rem 1rem;
-      border-radius: 0.25rem;
-      width: 100%;
-      cursor: pointer;
-      margin-top: 0.5rem;
-    }
-  </style>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
+  <!-- Your styles -->
+  <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
   <div class="container" id="uploadPage">
-    <h1>AI Tattoo Preview</h1>
-    <p>Upload a photo and select where to preview a tattoo.</p>
-    <input type="file" id="fileInput" accept="image/*" />
-    <div class="image-wrapper hidden" id="imageWrapper">
-      <img id="uploadedImage" alt="Upload preview" />
+    <h1>Preview Your Tattoo</h1>
+    <p>Upload a photo of your body part and select the area for your tattoo.</p>
+    <input type="file" id="fileInput" accept="image/*">
+    <div style="margin-top:1rem;">
+      <img id="uploadedImage" class="hidden" alt="Upload preview">
     </div>
-    <div class="suggestions" id="suggestions"></div>
-    <textarea
-      id="promptInput"
-      class="hidden"
-      rows="2"
-      placeholder="Describe your tattoo..."
-    ></textarea>
+    <div class="suggestions hidden" id="suggestions">
+      <button data-token=", super realistic">super realistic</button>
+      <button data-token=", black & white">B&amp;W</button>
+      <button data-token=", fine line">fine line</button>
+      <button data-token=", minimalistic">minimalistic</button>
+    </div>
+    <textarea id="promptInput" class="hidden" rows="2" placeholder="Describe your tattoo (e.g. tribal design, minimalistic)"></textarea>
     <button id="submitBtn" class="primary hidden">Generate Preview</button>
   </div>
 
-  <!-- Cropper.js JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" defer></script>
-  <script defer>
-  document.addEventListener('DOMContentLoaded', () => {
-    // initially populate and show all style chips
-    populateSuggestions();
-    suggestions.classList.remove('hidden');
+  <div class="container hidden" id="resultPage">
+    <h1>Your Preview Is Ready</h1>
+    <p>You can download your tattoo mockup below.</p>
+    <img id="resultImage" alt="Tattoo result">
+    <button id="downloadBtn" class="primary">Download</button>
+  </div>
 
-    let cropper;
-    let cropper;
-    const fileInput = document.getElementById('fileInput');
-    const img = document.getElementById('uploadedImage');
-    const wrapper = document.getElementById('imageWrapper');
-    const suggestions = document.getElementById('suggestions');
-    const promptInput = document.getElementById('promptInput');
-    const submitBtn = document.getElementById('submitBtn');
-
-    // Define style chips
-    const styleChips = [
-      { token: ', dotwork', file: 'dotwork .png', alt: 'Dotwork' },
-      { token: ', fine line', file: 'fine line.png', alt: 'Fine Line' },
-      { token: ', Geometric', file: 'Geometric.png', alt: 'Geometric' },
-      { token: ', Biomechanical', file: 'Biomechanical.png', alt: 'Biomechanical' },
-      { token: ', Minimal', file: 'Minimal.png', alt: 'Minimal' },
-      { token: ', Ornamental', file: 'ornamental.png', alt: 'Ornamental' },
-      { token: ', Script', file: 'script.png', alt: 'Script' },
-      { token: ', Tribal', file: 'tribal.png', alt: 'Tribal' },
-      { token: ', Watercolor', file: 'watercolor.png', alt: 'Watercolor' }
-    ];
-
-    function populateSuggestions() {
-      suggestions.innerHTML = '';
-      styleChips.forEach(s => {
-        const btn = document.createElement('button');
-        btn.dataset.token = s.token;
-        const icon = document.createElement('img');
-        icon.src = `assets/styles/${s.file}`;
-        icon.alt = s.alt;
-        btn.appendChild(icon);
-        btn.addEventListener('click', () => {
-          promptInput.value += s.token;
-        });
-        suggestions.appendChild(btn);
-      });
-    }
-
-    fileInput.addEventListener('change', () => {
-      const file = fileInput.files[0];
-      if (!file) return;
-      if (cropper) cropper.destroy();
-      wrapper.classList.add('hidden');
-      promptInput.classList.add('hidden');
-      suggestions.classList.add('hidden');
-      submitBtn.classList.add('hidden');
-
-      img.onload = () => {
-        wrapper.classList.remove('hidden');
-        promptInput.classList.remove('hidden');
-        populateSuggestions();
-      suggestions.classList.remove('hidden');
-        suggestions.classList.remove('hidden');
-        submitBtn.classList.remove('hidden');
-
-        cropper = new Cropper(img, {
-          viewMode: 1,
-          dragMode: 'crop',
-          autoCropArea: 0.7,
-          movable: true,
-          zoomable: true,
-          cropBoxMovable: true,
-          cropBoxResizable: true,
-          responsive: true
-        });
-        const cont = cropper.container;
-        if (cont) cont.style.touchAction = 'none';
-      };
-      img.src = URL.createObjectURL(file);
-    });
-  });
-  </script>
+  <!-- Main JS (modules) -->
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
