@@ -1,21 +1,19 @@
-<!-- 📂 File to edit: /index.html (in your project root) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>AI Tattoo Preview</title>
-  <!-- Cropper.js CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
-  <!-- Local styles -->
+  <link 
+    href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" 
+    rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
   <style>
     .suggestions button img {
-      width: 24px;
-      height: 24px;
-      object-fit: cover;
-      margin-right: 0.5rem;
-      border-radius: 4px;
+      width:24px; height:24px;
+      object-fit:cover;
+      margin-right:.5rem;
+      border-radius:4px;
     }
   </style>
 </head>
@@ -28,7 +26,7 @@
       <img id="uploadedImage" class="hidden" alt="Upload preview">
     </div>
     <div class="suggestions hidden" id="suggestions">
-      <!-- Suggestion buttons with icon + label, matching your assets/styles folder -->
+      <!-- Matches exactly what’s in assets/styles/ -->
       <button data-token=", biomechanical">
         <img src="assets/styles/Biomechanical.png" alt="biomechanical">
         <span>biomechanical</span>
@@ -66,7 +64,8 @@
         <span>watercolor</span>
       </button>
     </div>
-    <textarea id="promptInput" class="hidden" rows="2" placeholder="Describe your tattoo (e.g. geometric, tribal)"></textarea>
+    <textarea id="promptInput" class="hidden" rows="2"
+      placeholder="Describe your tattoo (e.g. geometric, tribal)"></textarea>
     <button id="submitBtn" class="primary hidden">Generate Preview</button>
   </div>
 
@@ -77,7 +76,6 @@
     <button id="downloadBtn" class="primary">Download</button>
   </div>
 
-  <!-- Main JS module -->
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
