@@ -18,7 +18,7 @@ body {
 .cropper-container .cropper-face {
   border: 3px solid #4A90E2;
 }
-/* Suggestions toolbar — icons only, no labels */
+/* --- suggestion‐icon chips (images only) --- */
 .suggestions {
   display: flex;
   gap: 0.5rem;
@@ -30,6 +30,11 @@ body {
   background: transparent;
   cursor: pointer;
 }
+/* hide any stray text/spans if still present */
+.suggestions button span {
+  display: none !important;
+}
+/* chip styling */
 .suggestions button img {
   width: 48px;
   height: 48px;
@@ -37,6 +42,7 @@ body {
   border-radius: 0.25rem;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
+
 
 .hidden {
   display: none;
