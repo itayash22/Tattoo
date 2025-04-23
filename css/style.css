@@ -25,23 +25,27 @@ body {
   margin-bottom: 1rem;
 }
 .suggestions button {
+  /* make every chip the same rectangle */
+  width: 72px;
+  height: 48px;
   padding: 0;
   border: none;
   background: transparent;
   cursor: pointer;
+  overflow: hidden;
 }
 /* hide any stray text/spans if still present */
 .suggestions button span {
   display: none !important;
 }
-/* chip styling */
 .suggestions button img {
-  width: 48px;
-  height: 48px;
-  object-fit: cover;
-  border-radius: 0.25rem;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  /* fill the chip, but don’t crop the icon */
+  width: 100%;
+  height: 100%;
+  object-fit: contain;      /* previously was cover, which cropped your images */
   background-color: transparent;
+  border-radius: 4px;       /* or 0 if you want completely square corners */
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
 }
 
 
