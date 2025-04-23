@@ -1,318 +1,186 @@
-# Proposed Database Schema for AI Tattoo Preview
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Tattoo Preview</title>
+  <!-- Cropper.js CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"
+  />
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 1rem;
+      background: #f9f9f9;
+      color: #333;
+    }
+    .container {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto 1rem;
+      padding: 1rem;
+      box-sizing: border-box;
+      background: #fff;
+      border-radius: 0.25rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .image-wrapper {
+      margin: 1rem 0;
+      width: 100%;
+      max-height: 40vh;
+      overflow: hidden;
+    }
+    .image-wrapper img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    textarea,
+    #promptInput {
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 0.25rem;
+      resize: vertical;
+    }
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      margin: 0.5rem 0;
+    }
+    .suggestions button {
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+    .suggestions button img {
+      width: 94px;
+      height: 94px;
+      object-fit: contain;
+      background: transparent;
+      display: block;
+      margin: 0 auto;
+    }
+    .hidden {
+      display: none !important;
+    }
+    button.primary {
+      background: #4a90e2;
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1rem;
+      border-radius: 0.25rem;
+      width: 100%;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="uploadPage">
+    <h1>AI Tattoo Preview</h1>
+    <p>Upload a photo and select where to preview a tattoo.</p>
+    <input type="file" id="fileInput" accept="image/*" />
+    <div class="image-wrapper hidden" id="imageWrapper">
+      <img id="uploadedImage" alt="Upload preview" />
+    </div>
+    <div class="suggestions" id="suggestions"></div>
+    <textarea
+      id="promptInput"
+      class="hidden"
+      rows="2"
+      placeholder="Describe your tattoo..."
+    ></textarea>
+    <button id="submitBtn" class="primary hidden">Generate Preview</button>
+  </div>
 
-This B2B2C platform involves three main personas:
+  <!-- Cropper.js JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" defer></script>
+  <script defer>
+  document.addEventListener('DOMContentLoaded', () => {
+    // initially populate and show all style chips
+    populateSuggestions();
+    suggestions.classList.remove('hidden');
 
-1. **End‑User** (consumer browsing, uploading images, requesting previews)
-2. **Website** (stores configurations, billing, usage)
-3. **Tattoo Artist** (profiles, affiliate links, messaging analytics)
+    let cropper;
+    let cropper;
+    const fileInput = document.getElementById('fileInput');
+    const img = document.getElementById('uploadedImage');
+    const wrapper = document.getElementById('imageWrapper');
+    const suggestions = document.getElementById('suggestions');
+    const promptInput = document.getElementById('promptInput');
+    const submitBtn = document.getElementById('submitBtn');
 
-> **NOTE:** The system will _never_ persist raw image files for user previews or artist portfolios—only external URLs or temporary storage references.
+    // Define style chips
+    const styleChips = [
+      { token: ', dotwork', file: 'dotwork .png', alt: 'Dotwork' },
+      { token: ', fine line', file: 'fine line.png', alt: 'Fine Line' },
+      { token: ', Geometric', file: 'Geometric.png', alt: 'Geometric' },
+      { token: ', Biomechanical', file: 'Biomechanical.png', alt: 'Biomechanical' },
+      { token: ', Minimal', file: 'Minimal.png', alt: 'Minimal' },
+      { token: ', Ornamental', file: 'ornamental.png', alt: 'Ornamental' },
+      { token: ', Script', file: 'script.png', alt: 'Script' },
+      { token: ', Tribal', file: 'tribal.png', alt: 'Tribal' },
+      { token: ', Watercolor', file: 'watercolor.png', alt: 'Watercolor' }
+    ];
 
----
+    function populateSuggestions() {
+      suggestions.innerHTML = '';
+      styleChips.forEach(s => {
+        const btn = document.createElement('button');
+        btn.dataset.token = s.token;
+        const icon = document.createElement('img');
+        icon.src = `assets/styles/${s.file}`;
+        icon.alt = s.alt;
+        btn.appendChild(icon);
+        btn.addEventListener('click', () => {
+          promptInput.value += s.token;
+        });
+        suggestions.appendChild(btn);
+      });
+    }
 
-## 1. users
-Stores end‑user accounts (freemium / registered)
-```sql
-CREATE TABLE users (
-  user_id        SERIAL PRIMARY KEY,
-  email          TEXT UNIQUE NOT NULL,
-  password_hash  TEXT NOT NULL,
-  name           TEXT,
-  is_paid        BOOLEAN DEFAULT FALSE,
-  free_uses_left INT    DEFAULT 1,
-  created_at     TIMESTAMPTZ DEFAULT now()
-);
-```
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      if (!file) return;
+      if (cropper) cropper.destroy();
+      wrapper.classList.add('hidden');
+      promptInput.classList.add('hidden');
+      suggestions.classList.add('hidden');
+      submitBtn.classList.add('hidden');
 
-## 2. artists
-Profiles of tattoo artists (B2B)
-```sql
-CREATE TABLE artists (
-  artist_id      SERIAL PRIMARY KEY,
-  name           TEXT NOT NULL,
-  location       TEXT,
-  rating         SMALLINT,         -- 1..5 stars
-  affiliate_url  TEXT,             -- tracked externally
-  bio            TEXT,
-  created_at     TIMESTAMPTZ DEFAULT now()
-);
-```
+      img.onload = () => {
+        wrapper.classList.remove('hidden');
+        promptInput.classList.remove('hidden');
+        populateSuggestions();
+      suggestions.classList.remove('hidden');
+        suggestions.classList.remove('hidden');
+        submitBtn.classList.remove('hidden');
 
-## 3. artist_portfolio
-References to external portfolio images (no file blobs stored)
-```sql
-CREATE TABLE artist_portfolio (
-  portfolio_id   SERIAL PRIMARY KEY,
-  artist_id      INT REFERENCES artists(artist_id) ON DELETE CASCADE,
-  image_url      TEXT NOT NULL,
-  created_at     TIMESTAMPTZ DEFAULT now()
-);
-```
-
-## 4. previews
-Tracks each AI request/response; only URLs stored
-```sql
-CREATE TABLE previews (
-  preview_id     SERIAL PRIMARY KEY,
-  user_id        INT REFERENCES users(user_id) ON DELETE SET NULL,
-  original_url   TEXT NOT NULL,    -- temp URL to uploaded image
-  crop_data      JSONB NOT NULL,
-  user_prompt    TEXT NOT NULL,    -- from the textarea
-  result_url     TEXT,             -- URL returned by AI engine
-  created_at     TIMESTAMPTZ DEFAULT now()
-);
-```
-
-## 5. billing_transactions
-Freemium and paid usage tracking
-```sql
-CREATE TABLE billing_transactions (
-  tx_id          SERIAL PRIMARY KEY,
-  user_id        INT REFERENCES users(user_id),
-  amount_cents   INT NOT NULL,
-  currency       TEXT DEFAULT 'USD',
-  description    TEXT,
-  created_at     TIMESTAMPTZ DEFAULT now()
-);
-```
-
-## 6. affiliate_metrics
-Captures artist affiliate interactions
-```sql
-CREATE TABLE affiliate_metrics (
-  metric_id      SERIAL PRIMARY KEY,
-  artist_id      INT REFERENCES artists(artist_id),
-  clicked_at     TIMESTAMPTZ DEFAULT now(),
-  action_type    TEXT NOT NULL  -- e.g. 'click_affiliate', 'message_sent'
-);
-```
-
-> **Usage analytics:** Query counts per artist:
-> ```sql
-> -- total clicks
-> SELECT artist_id, COUNT(*) AS clicks
-> FROM affiliate_metrics
-> WHERE action_type = 'click_affiliate'
-> GROUP BY artist_id;
-> ```
-
-## 7. config
-Stores sensitive server‑side settings (e.g. standard AI prompt)
-```sql
-CREATE TABLE config (
-  key   TEXT PRIMARY KEY,
-  value TEXT NOT NULL  -- e.g. Base64‑encoded or encrypted
-);
-
--- Example:
-INSERT INTO config(key, value)
-VALUES ('standard_prompt', 'QmFzZSA2NCBzZWNyZXQgdGV4dCBsaW5l');  -- Base64
-```
-
----
-
-### Combining prompts at runtime
-1. Retrieve `value` from `config` for `standard_prompt` and decode.
-2. Append user text:
-   ```js
-   const finalPrompt = standardPrompt + ' added info:' + userPrompt;
-   ```
-3. Send only `finalPrompt` and image data to the AI engine; end‑users never see `standardPrompt` in full.
-
-### API Credentials
-- **Best practice:** _Do not_ hard‑code keys in the front‑end or expose them in the DB plaintext.  
-- Store credentials in environment variables or a secure secrets manager, injecting at server startup.  
-- Alternatively, encrypt them in the `config` table and decrypt at runtime in a secure backend service.  
-
-This schema can be extended for messaging logs, role‑based access, and more advanced analytics as needed.
-
-## Recommended Database Architecture and Deployment
-
-1. **Database Choice**: PostgreSQL is ideal for this schema due to its strong JSONB support (for crop_data), robust indexing, and ACID guarantees. It also integrates well with most backend frameworks.
-
-2. **Schema Management**: Use a migration tool like Flyway or Liquibase (or Rails Active Record / Django migrations) to version and apply schema changes safely across environments.
-
-3. **Connection Pooling**: Deploy a connection pool (e.g., PgBouncer) in transaction mode to handle high-concurrency web traffic without overloading the database.
-
-4. **Read Scalability**: Set up a primary‑replica topology:
-   - **Primary** handles writes (inserts into `previews`, `billing_transactions`, etc.).
-   - **Read Replicas** serve heavy read queries (e.g., fetching `artists`, analytics queries) to offload the primary.
-
-5. **Caching Layer**: Add a Redis cache for frequent lookups:
-   - Cache artist profiles and portfolio lists to reduce DB hits.
-   - Store rate‑limits and session tokens.
-
-6. **Secrets Management**: Store API credentials and DB passwords in a secrets manager (e.g., AWS Secrets Manager, HashiCorp Vault). The application reads these at startup; never hard‑code or store them in plain tables.
-
-7. **Backups & DR**:
-   - Configure point‑in‑time recovery (PITR) via WAL archiving.
-   - Daily logical backups (pg_dump) stored offsite.
-
-8. **Monitoring & Alerting**:
-   - Use tools like pg_stat_statements, Prometheus, and Grafana to track slow queries, connection counts, and replication lag.
-
-9. **Multi‑Tenant Considerations**:
-   - If future growth requires separating tenant data (e.g., multiple independent installations), consider schema‑per‑tenant or row‑level tenant_id columns with the `users` and `artists` tables.
-
-This architecture balances reliability, scalability, and maintainability for a B2B2C AI‑driven tattoo preview platform.
-
----
-
-## Supabase SQL Setup
-
-You can deploy this schema directly in Supabase using its SQL Editor:
-
-1. Log in to your Supabase project.
-2. In the left sidebar, select **SQL Editor** → **New query**.
-3. Paste the following SQL script and click **Run**.
-
-```sql
--- 1. Users
-create table if not exists users (
-  user_id serial primary key,
-  email text unique not null,
-  password_hash text not null,
-  name text,
-  is_paid boolean default false,
-  free_uses_left int default 1,
-  created_at timestamptz default now()
-);
-
--- 2. Artists
-create table if not exists artists (
-  artist_id serial primary key,
-  name text not null,
-  location text,
-  rating smallint,
-  affiliate_url text,
-  bio text,
-  created_at timestamptz default now()
-);
-
--- 3. Artist Portfolio
-create table if not exists artist_portfolio (
-  portfolio_id serial primary key,
-  artist_id int references artists(artist_id) on delete cascade,
-  image_url text not null,
-  created_at timestamptz default now()
-);
-
--- 4. Previews
-create table if not exists previews (
-  preview_id serial primary key,
-  user_id int references users(user_id) on delete set null,
-  original_url text not null,
-  crop_data jsonb not null,
-  user_prompt text not null,
-  result_url text,
-  created_at timestamptz default now()
-);
-
--- 5. Billing Transactions
-create table if not exists billing_transactions (
-  tx_id serial primary key,
-  user_id int references users(user_id),
-  amount_cents int not null,
-  currency text default 'USD',
-  description text,
-  created_at timestamptz default now()
-);
-
--- 6. Affiliate Metrics
-create table if not exists affiliate_metrics (
-  metric_id serial primary key,
-  artist_id int references artists(artist_id),
-  clicked_at timestamptz default now(),
-  action_type text not null
-);
-
--- 7. Config
-create table if not exists config (
-  key text primary key,
-  value text not null
-);
-
--- Example standard_prompt entry
-insert into config(key, value)
-values ('standard_prompt', 'BASE64_ENCODED_SECRET_PROMPT')
-on conflict (key) do nothing;
-```
-
-All tables will be created if they don’t already exist, and you can modify or extend them via the same SQL Editor in future.
-
----
-
-Now your Supabase database is ready to store users, artists, preview data, and metrics securely.
-
----
-
-## Supabase Client Integration (JavaScript)
-
-Below is a minimal example of how to wire up the front‑end logic to your Supabase tables. Install `@supabase/supabase-js` in your project first:
-```bash
-npm install @supabase/supabase-js
-```
-
-```js
-import { createClient } from '@supabase/supabase-js';
-
-// Initialize Supabase client (use environment vars)
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_ANON_KEY;
-export const supabase = createClient(supabaseUrl, supabaseKey);
-
-// 1. Fetch artists and portfolios
-async function fetchArtists() {
-  // Join artists with portfolio images
-  const { data, error } = await supabase
-    .from('artists')
-    .select(`
-      *,
-      artist_portfolio(image_url)
-    `);
-  if (error) throw error;
-  return data;
-}
-
-// 2. Record a new preview
-async function recordPreview(userId, originalUrl, cropData, userPrompt, resultUrl) {
-  const { error } = await supabase
-    .from('previews')
-    .insert([{ user_id: userId, original_url: originalUrl, crop_data: cropData, user_prompt: userPrompt, result_url: resultUrl }]);
-  if (error) console.error('Preview insert failed:', error);
-}
-
-// 3. Track affiliate click or message_sent
-async function trackAffiliate(artistId, actionType) {
-  const { error } = await supabase
-    .from('affiliate_metrics')
-    .insert([{ artist_id: artistId, action_type: actionType }]);
-  if (error) console.error('Affiliate metric failed:', error);
-}
-
-// 4. Obtain standard prompt from config
-async function getStandardPrompt() {
-  const { data, error } = await supabase
-    .from('config')
-    .select('value')
-    .eq('key', 'standard_prompt')
-    .single();
-  if (error) throw error;
-  // decode Base64 if stored that way
-  return atob(data.value);
-}
-
-// Usage example inside your generate handler
-async function generateTattoo(userId, uploadUrl, cropData, userPrompt) {
-  const standard = await getStandardPrompt();
-  const finalPrompt = `${standard} added info:${userPrompt}`;
-  // call your AI endpoint with uploadUrl and finalPrompt...
-  const resultUrl = await callAiAPI(uploadUrl, finalPrompt);
-  // record in DB
-  await recordPreview(userId, uploadUrl, cropData, userPrompt, resultUrl);
-  return resultUrl;
-}
-```
-
-Paste this into your front‑end or API service, substituting `callAiAPI` and your environment variable setup. This connects your UI logic directly to the Supabase tables you created.
-
+        cropper = new Cropper(img, {
+          viewMode: 1,
+          dragMode: 'crop',
+          autoCropArea: 0.7,
+          movable: true,
+          zoomable: true,
+          cropBoxMovable: true,
+          cropBoxResizable: true,
+          responsive: true
+        });
+        const cont = cropper.container;
+        if (cont) cont.style.touchAction = 'none';
+      };
+      img.src = URL.createObjectURL(file);
+    });
+  });
+  </script>
+</body>
+</html>
