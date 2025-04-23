@@ -21,9 +21,11 @@ body {
   border: 3px solid #4A90E2;
 }
 .suggestions {
-  display: grid;
+  display: flex;
+  justify-content: center;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.5rem;
+  margin: 1rem 0;
   margin-bottom: 1rem;
 }
 .suggestions button {
