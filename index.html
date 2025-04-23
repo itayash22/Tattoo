@@ -6,8 +6,18 @@
   <title>AI Tattoo Preview</title>
   <!-- Cropper.js CSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
-  <!-- Your styles -->
+  <!-- Local styles -->
   <link href="css/style.css" rel="stylesheet">
+  <!-- Inline helper styles for suggestion icons -->
+  <style>
+    .suggestions button img {
+      width: 24px;
+      height: 24px;
+      object-fit: cover;
+      margin-right: 0.5rem;
+      border-radius: 4px;
+    }
+  </style>
 </head>
 <body>
   <div class="container" id="uploadPage">
@@ -18,10 +28,23 @@
       <img id="uploadedImage" class="hidden" alt="Upload preview">
     </div>
     <div class="suggestions hidden" id="suggestions">
-      <button data-token=", super realistic">super realistic</button>
-      <button data-token=", black & white">B&amp;W</button>
-      <button data-token=", fine line">fine line</button>
-      <button data-token=", minimalistic">minimalistic</button>
+      <!-- Suggestion buttons with icon + label -->
+      <button data-token=", super realistic">
+        <img src="/assets/styles/super-realistic.png" alt="Super realistic">
+        <span>super realistic</span>
+      </button>
+      <button data-token=", black & white">
+        <img src="/assets/styles/black-white.png" alt="Black & White">
+        <span>B&amp;W</span>
+      </button>
+      <button data-token=", fine line">
+        <img src="/assets/styles/fine-line.png" alt="Fine line">
+        <span>fine line</span>
+      </button>
+      <button data-token=", minimalistic">
+        <img src="/assets/styles/minimalistic.png" alt="Minimalistic">
+        <span>minimalistic</span>
+      </button>
     </div>
     <textarea id="promptInput" class="hidden" rows="2" placeholder="Describe your tattoo (e.g. tribal design, minimalistic)"></textarea>
     <button id="submitBtn" class="primary hidden">Generate Preview</button>
@@ -29,12 +52,12 @@
 
   <div class="container hidden" id="resultPage">
     <h1>Your Preview Is Ready</h1>
-    <p>You can download your tattoo mockup below.</p>
+    <p>You can download your tattoo mockup below. Remember: we do not store your images on our server.</p>
     <img id="resultImage" alt="Tattoo result">
     <button id="downloadBtn" class="primary">Download</button>
   </div>
 
-  <!-- Main JS (modules) -->
+  <!-- Main JS module -->
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
