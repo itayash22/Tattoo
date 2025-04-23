@@ -1,5 +1,5 @@
 // Imports the ESM build of Cropper.js from CDN
-import Cropper from 'https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.esm.js';
+import Cropper from 'https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.esm.js';
 
 export function setupCropper(imgEl) {
   return new Cropper(imgEl, {
