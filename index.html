@@ -1,3 +1,4 @@
+<!-- 📂 File to edit: /index.html (in your project root) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +9,6 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
   <!-- Local styles -->
   <link href="css/style.css" rel="stylesheet">
-  <!-- Inline helper styles for suggestion icons -->
   <style>
     .suggestions button img {
       width: 24px;
@@ -28,25 +28,45 @@
       <img id="uploadedImage" class="hidden" alt="Upload preview">
     </div>
     <div class="suggestions hidden" id="suggestions">
-      <!-- Suggestion buttons with icon + label -->
-      <button data-token=", super realistic">
-        <img src="assets/styles/super-realistic.png" alt="Super realistic">
-        <span>super realistic</span>
+      <!-- Suggestion buttons with icon + label, matching your assets/styles folder -->
+      <button data-token=", biomechanical">
+        <img src="assets/styles/Biomechanical.png" alt="biomechanical">
+        <span>biomechanical</span>
       </button>
-      <button data-token=", black & white">
-        <img src="assets/styles/black-white.png" alt="Black & White">
-        <span>B&amp;W</span>
+      <button data-token=", geometric">
+        <img src="assets/styles/Geometric.png" alt="geometric">
+        <span>geometric</span>
+      </button>
+      <button data-token=", minimal">
+        <img src="assets/styles/Minimal.png" alt="minimal">
+        <span>minimal</span>
       </button>
       <button data-token=", fine line">
-        <img src="assets/styles/fine-line.png" alt="Fine line">
+        <img src="assets/styles/fine line.png" alt="fine line">
         <span>fine line</span>
       </button>
-      <button data-token=", minimalistic">
-        <img src="assets/styles/minimalistic.png" alt="Minimalistic">
-        <span>minimalistic</span>
+      <button data-token=", dotwork">
+        <img src="assets/styles/dotwork .png" alt="dotwork">
+        <span>dotwork</span>
+      </button>
+      <button data-token=", ornamental">
+        <img src="assets/styles/ornamental.png" alt="ornamental">
+        <span>ornamental</span>
+      </button>
+      <button data-token=", script">
+        <img src="assets/styles/script.png" alt="script">
+        <span>script</span>
+      </button>
+      <button data-token=", tribal">
+        <img src="assets/styles/tribal.png" alt="tribal">
+        <span>tribal</span>
+      </button>
+      <button data-token=", watercolor">
+        <img src="assets/styles/watercolor.png" alt="watercolor">
+        <span>watercolor</span>
       </button>
     </div>
-    <textarea id="promptInput" class="hidden" rows="2" placeholder="Describe your tattoo (e.g. tribal design, minimalistic)"></textarea>
+    <textarea id="promptInput" class="hidden" rows="2" placeholder="Describe your tattoo (e.g. geometric, tribal)"></textarea>
     <button id="submitBtn" class="primary hidden">Generate Preview</button>
   </div>
 
