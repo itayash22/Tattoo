@@ -18,20 +18,26 @@ body {
 .cropper-container .cropper-face {
   border: 3px solid #4A90E2;
 }
+/* Suggestions toolbar — icons only, no labels */
 .suggestions {
   display: flex;
-  flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 .suggestions button {
-  background: #eee;
+  padding: 0;
   border: none;
-  border-radius: 0.25rem;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.9rem;
+  background: transparent;
   cursor: pointer;
 }
+.suggestions button img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 0.25rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
 .hidden {
   display: none;
 }
