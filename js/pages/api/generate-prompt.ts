@@ -1,9 +1,9 @@
 // pages/api/generate-prompt.ts
 console.log('🔑 OPENAI_API_KEY =', process.env.OPENAI_API_KEY)
+
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Configuration, OpenAIApi } from 'openai'
 import { savePrompt } from '../../lib/supabaseClient'
-import supabase, { savePrompt } from '../../lib/supabaseClient'
 
 const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY })
 const openai = new OpenAIApi(configuration)
@@ -28,13 +28,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   // 2) call ChatGPT
   const completion = await openai.createChatCompletion({
-    model: 'gpt-4o-mini',   // or 'gpt-4-turbo'
+    model: 'gpt-4o-mini', // or 'gpt-4-turbo'
     messages: [systemMsg, userMsg],
     temperature: 0.7
   })
 
   const promptText = completion.data.choices[0].message?.content?.trim()
-  if (!promptText) return res.status(500).json({ error: 'No prompt generated' })
+  if (!promptText) {
+    return res.status(500).json({ error: 'No prompt generated' })
+  }
 
   // 3) persist the prompt
   await savePrompt(userId, imageId, style, promptText)
