@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   const { userId, image, mask, style, cropCoords, skinTone } = req.body
 
   // 1) ask your ChatGPT agent for the prompt
-  const promptRes = await fetch(`${process.env.APP_URL}/api/generate-prompt`, {
+  const promptRes = await fetch('/api/generate-prompt', {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify({
