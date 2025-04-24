@@ -1,4 +1,5 @@
 // pages/api/generate-prompt.ts
+console.log('🔑 OPENAI_API_KEY =', process.env.OPENAI_API_KEY)
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Configuration, OpenAIApi } from 'openai'
 import { savePrompt } from '../../lib/supabaseClient'
