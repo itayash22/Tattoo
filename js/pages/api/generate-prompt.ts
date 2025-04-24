@@ -28,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   // 2) call ChatGPT
   const completion = await openai.createChatCompletion({
-    model: 'gpt-4o-mini', // or 'gpt-4-turbo'
+    model: 'gpt-4o-mini',
     messages: [systemMsg, userMsg],
     temperature: 0.7
   })
@@ -41,6 +41,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   // 3) persist the prompt
   await savePrompt(userId, imageId, style, promptText)
 
-  // 4) return for your image‐generation step
+  // 4) return for your image-generation step
   res.status(200).json({ prompt: promptText })
 }
