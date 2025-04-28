@@ -28,6 +28,8 @@ function fakeGenerateTattoo() {
           {
             artist_id: 1,
             name: 'Ink Masters',
+            location: 'New York, NY',
+            rating: 5,
             affiliate_url: 'https://affiliates.example.com/inkmasters',
             thumbnail: 'assets/artists/inkmasters-thumb.jpg',
             bio: 'Specializes in realistic tattoos'
@@ -35,6 +37,8 @@ function fakeGenerateTattoo() {
           {
             artist_id: 2,
             name: 'Tattoo Soul',
+            location: 'Los Angeles, CA',
+            rating: 4,
             affiliate_url: 'https://affiliates.example.com/tattoosoul',
             thumbnail: 'assets/artists/tattoosoul-thumb.jpg',
             bio: 'Creative fine-line designs'
@@ -125,20 +129,29 @@ submitBtn.addEventListener('click', async () => {
     const drawer = document.createElement('details');
     drawer.style.marginBottom = '0.5rem';
 
-    // Summary: name only (clickable link)
+    // Summary: name, location, rating, bio, and thumbnail
     const summary = document.createElement('summary');
     summary.style.cursor = 'pointer';
+    summary.style.listStyle = 'none';
+    summary.style.paddingLeft = '0';
     summary.innerHTML = `
-      <a href="${artist.affiliate_url}" target="_blank" style="text-decoration:none;color:inherit;">
-        ${artist.name}
-      </a>
+      <img src="${artist.thumbnail}" alt="${artist.name}" 
+        style="width:40px;height:40px;object-fit:cover;border-radius:50%;margin-right:0.5rem;vertical-align:middle;">
+      <strong>${artist.name}</strong>
+      <span style="margin-left:0.5rem;color:#666">${artist.location}</span>
+      <span style="margin-left:0.5rem;color:#FFD700">★ ${artist.rating}</span>
+      <span style="margin-left:0.5rem;color:#333;display:inline-block;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;vertical-align:middle;">
+        ${artist.bio}
+      </span>
     `;
     drawer.appendChild(summary);
 
-    // Expanded info: WhatsApp interaction box
+    // Expanded info: portfolio image + WhatsApp interaction
     const info = document.createElement('div');
     info.style.padding = '0.5rem 1rem';
     info.innerHTML = `
+      <img src="${data.imageUrl}" alt="Portfolio" 
+        style="width:100%;max-height:200px;object-fit:contain;border-radius:4px;margin-bottom:0.5rem;">
       <div style="display:flex;align-items:center;margin-bottom:0.5rem;">
         <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" 
           style="width:24px;height:24px;object-fit:contain;margin-right:0.5rem;">
