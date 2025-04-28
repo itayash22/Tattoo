@@ -97,6 +97,17 @@ img {
   font-size: 1.25rem;
   font-weight: bold;
 }
+.intro-text {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 1rem 0;
+}
+
 .site-header .logo {
   color: white;
   text-decoration: none;
