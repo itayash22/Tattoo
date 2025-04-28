@@ -30,6 +30,7 @@ function fakeGenerateTattoo() {
             name: 'Ink Masters',
             location: 'New York, NY',
             rating: 5,
+            thumbnail: 'assets/artists/inkmasters-thumb.jpg',
             affiliate_url: 'https://affiliates.example.com/inkmasters',
             bio: 'Specializes in realistic tattoos'
           },
@@ -38,6 +39,7 @@ function fakeGenerateTattoo() {
             name: 'Tattoo Soul',
             location: 'Los Angeles, CA',
             rating: 4,
+            thumbnail: 'assets/artists/tattoosoul-thumb.jpg',
             affiliate_url: 'https://affiliates.example.com/tattoosoul',
             bio: 'Creative fine-line designs'
           }
@@ -115,7 +117,7 @@ submitBtn.addEventListener('click', async () => {
   const existing = document.getElementById('artistList');
   if (existing) existing.remove();
 
-  // Build artist drawers with default summary info (name, location, rating)
+  // Build artist drawers
   const artistContainer = document.createElement('div');
   artistContainer.id = 'artistList';
   artistContainer.style.marginTop = '1rem';
@@ -128,22 +130,30 @@ submitBtn.addEventListener('click', async () => {
     const drawer = document.createElement('details');
     drawer.style.marginBottom = '0.5rem';
 
-    // Summary: name, location, rating
+    // Summary: thumbnail + name (default closed style)
     const summary = document.createElement('summary');
     summary.style.cursor = 'pointer';
     summary.innerHTML = `
+      <img src="${artist.thumbnail}" alt="${artist.name}" 
+        style="width:40px;height:40px;object-fit:cover;border-radius:50%;margin-right:0.5rem;vertical-align:middle;">
       <strong>${artist.name}</strong>
-      <span style="margin-left:0.5rem;color:#666">${artist.location}</span>
-      <span style="margin-left:0.5rem;color:#FFD700">★ ${artist.rating}</span>
     `;
     drawer.appendChild(summary);
 
-    // Expanded info: bio + affiliate link
+    // Expanded info: WhatsApp interaction box
     const info = document.createElement('div');
     info.style.padding = '0.5rem 1rem';
     info.innerHTML = `
-      <p>${artist.bio}</p>
-      <p><a href="${artist.affiliate_url}" target="_blank">Visit Artist</a></p>
+      <div style="display:flex;align-items:center;margin-bottom:0.5rem;">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" 
+          style="width:24px;height:24px;object-fit:contain;margin-right:0.5rem;">
+        <span>Chat with ${artist.name} on WhatsApp:</span>
+      </div>
+      <textarea placeholder="Type your message..." 
+        style="width:100%;height:60px;border:1px solid #ccc;border-radius:4px;padding:0.5rem;resize:none;"></textarea>
+      <button style="margin-top:0.5rem;padding:0.5rem 1rem;background:#25D366;color:#fff;border:none;border-radius:4px;cursor:pointer;">
+        Send Message
+      </button>
     `;
     drawer.appendChild(info);
 
