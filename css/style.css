@@ -88,3 +88,17 @@ img {
 #resultPage img {
   border-radius: 0.25rem;
 }
+.site-header {
+  width: 100%;
+  padding: 1rem;
+  background: #4A90E2;
+  color: white;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.site-header .logo {
+  color: white;
+  text-decoration: none;
+}
+
