@@ -5,6 +5,7 @@ import { attachPromptButtons } from './promptHelpers.js';
 // Toggle fake API responses for development/demo
 const USE_FAKE_API = true;
 
+// DOM elements
 const fileInput   = document.getElementById('fileInput');
 const img         = document.getElementById('uploadedImage');
 const promptInput = document.getElementById('promptInput');
@@ -17,7 +18,7 @@ const downloadBtn = document.getElementById('downloadBtn');
 
 let cropper;
 
-// Fake API: returns a dummy tattoo preview + detailed artist info
+// Fake API: returns a dummy tattoo preview + artist recommendations matching your DB schema
 function fakeGenerateTattoo() {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -25,25 +26,20 @@ function fakeGenerateTattoo() {
         imageUrl: 'assets/fake-preview.jpg',
         artists: [
           {
-            name: 'Ari Tattoo',
-            link: 'https://ari-inks.example.com',
-            thumbnail: 'assets/artists/ari-thumb.jpg',
-            rating: 4.8,
-            description: 'Expert in tribal and geometric designs.'
+            artist_id: 1,
+            name: 'Ink Masters',
+            location: 'New York, NY',
+            rating: 5,
+            affiliate_url: 'https://affiliates.example.com/inkmasters',
+            bio: 'Specializes in realistic tattoos'
           },
           {
-            name: 'Skin Story',
-            link: 'https://skinstory.example.com',
-            thumbnail: 'assets/artists/skinstory-thumb.jpg',
-            rating: 4.5,
-            description: 'Specializes in watercolor and fine-line tattoos.'
-          },
-          {
-            name: 'Ink & Soul',
-            link: 'https://inkandsoul.example.com',
-            thumbnail: 'assets/artists/inksoul-thumb.jpg',
-            rating: 4.9,
-            description: 'Renowned for portrait and realism work.'
+            artist_id: 2,
+            name: 'Tattoo Soul',
+            location: 'Los Angeles, CA',
+            rating: 4,
+            affiliate_url: 'https://affiliates.example.com/tattoosoul',
+            bio: 'Creative fine-line designs'
           }
         ]
       });
@@ -119,7 +115,7 @@ submitBtn.addEventListener('click', async () => {
   const existing = document.getElementById('artistList');
   if (existing) existing.remove();
 
-  // Build artist drawers
+  // Build artist drawers with default summary info (name, location, rating)
   const artistContainer = document.createElement('div');
   artistContainer.id = 'artistList';
   artistContainer.style.marginTop = '1rem';
@@ -132,23 +128,22 @@ submitBtn.addEventListener('click', async () => {
     const drawer = document.createElement('details');
     drawer.style.marginBottom = '0.5rem';
 
-    // Summary: thumbnail + name
+    // Summary: name, location, rating
     const summary = document.createElement('summary');
     summary.style.cursor = 'pointer';
     summary.innerHTML = `
-      <img src="${artist.thumbnail}" alt="${artist.name}" 
-        style="width:40px;height:40px;object-fit:cover;border-radius:4px;margin-right:0.5rem;vertical-align:middle;">
-      <span>${artist.name}</span>
+      <strong>${artist.name}</strong>
+      <span style="margin-left:0.5rem;color:#666">${artist.location}</span>
+      <span style="margin-left:0.5rem;color:#FFD700">★ ${artist.rating}</span>
     `;
     drawer.appendChild(summary);
 
-    // Expanded info
+    // Expanded info: bio + affiliate link
     const info = document.createElement('div');
     info.style.padding = '0.5rem 1rem';
     info.innerHTML = `
-      <p><strong>Rating:</strong> ${artist.rating} / 5</p>
-      <p>${artist.description}</p>
-      <p><a href="${artist.link}" target="_blank">Visit Artist</a></p>
+      <p>${artist.bio}</p>
+      <p><a href="${artist.affiliate_url}" target="_blank">Visit Artist</a></p>
     `;
     drawer.appendChild(info);
 
