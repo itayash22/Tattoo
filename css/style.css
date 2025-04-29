@@ -113,13 +113,5 @@ hr {
   text-decoration: none;
 }
 
-/* Mobile: slim down the Cropper “ring” so it’s fully visible */
-@media (max-width: 480px) {
-  .cropper-container .cropper-view-box,
-  .cropper-container .cropper-face {
-    /* reduce border from 3px → 2px (or 1px if you like even slimmer) */
-    border: 2px solid #4A90E2;
-  }
-}
 
 
