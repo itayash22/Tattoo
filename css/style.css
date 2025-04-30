@@ -90,25 +90,22 @@ img {
   border-radius: 0.25rem;
 }
 
-/* Banner styling – responsive max-height, no cropping */
+/* Banner styling: constrain to readable height */
 .banner-container {
   width: 100%;
-  max-width: 480px;     /* match your mobile container */
-  margin: 1rem auto;    /* center + vertical spacing */
+  max-width: 480px;     /* match main container width */
+  margin: 1rem auto;    /* center + spacing */
 }
-
 .banner-container .banner-image {
-  width: 100%;          /* fill container width */
+  width: 100%;          /* fill container */
   height: auto;         /* maintain aspect ratio */
-  max-height: 200px;    /* mobile‐friendly banner height */
-  object-fit: contain;  /* scale down to fit without cropping */
+  max-height: 150px;    /* limit banner height */
+  object-fit: contain;  /* scale inside container */
   display: block;
 }
-
-/* Larger banner on tablets/desktops */
-@media (min-width: 768px) {
+ (min-width: 768px) {
   .banner-container .banner-image {
-    max-height: 300px;
+    max-width: 100%;
+    height: auto;
   }
 }
-
