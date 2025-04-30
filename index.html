@@ -1,26 +1,25 @@
-<!-- 📂 File to edit: /index.html (project root) -->
+# InkSight Codebase
+
+This canvas holds the current key files for the InkSight website so we can update them in place without re‑pasting every time.
+
+---
+
+## 1. `index.html`
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AI Tattoo Preview</title>
-  <!-- Cropper.js CSS -->
+  <title>InkSight</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
-  <!-- Local styles -->
   <link href="css/style.css" rel="stylesheet">
-  <!-- Suggestion icons are styled via css/style.css (add rules for .suggestions and its buttons there) -->
 </head>
 <body>
-  
-<!-- Banner -->
-<div class="banner-container">
-  <img
-    src="assets/images/banner.png"
-    alt="InkSight banner"
-    class="banner-image"
-  >
-</div>
+  <div class="banner-container">
+    <img src="assets/images/banner.png" alt="InkSight banner" class="banner-image">
+  </div>
 
   <div class="container" id="uploadPage">
     <h1>Preview Your Tattoo</h1>
@@ -34,45 +33,60 @@
       <button data-token=", biomechanical">
         <img src="assets/styles/Biomechanical.png" alt="biomechanical">
       </button>
-      <button data-token=", geometric">
-        <img src="assets/styles/Geometric.png" alt="geometric">
-      </button>
-      <button data-token=", minimal">
-        <img src="assets/styles/Minimal.png" alt="minimal">
-      </button>
-      <button data-token=", fine line">
-        <img src="assets/styles/fine line.png" alt="fine line">
-      </button>
-      <button data-token=", dotwork">
-        <img src="assets/styles/dotwork .png" alt="dotwork">
-      </button>
-      <button data-token=", ornamental">
-        <img src="assets/styles/ornamental.png" alt="ornamental">
-      </button>
-      <button data-token=", script">
-        <img src="assets/styles/script.png" alt="script">
-      </button>
-      <button data-token=", tribal">
-        <img src="assets/styles/tribal.png" alt="tribal">
-      </button>
-      <button data-token=", watercolor">
-        <img src="assets/styles/watercolor.png" alt="watercolor">
-      </button>
+      <!-- other buttons... -->
     </div>
     <textarea id="promptInput" class="hidden" rows="2" placeholder="Describe your tattoo (e.g. geometric, tribal)"></textarea>
     <button id="submitBtn" class="primary hidden">Generate Preview</button>
   </div>
 
   <div class="container hidden" id="resultPage">
-  <p class="intro-text">
-    🎉 Your custom design is here! You can download it or choose an artist below to chat with.
-  </p>
-  <h1>Your Preview Is Ready</h1>
-  <p>You can download your tattoo mockup below. Remember: we do not store your images on our server.</p>
-  <hr>
-  …
-
+    <p class="intro-text">
+      🎉 Your custom design is here! You can download it or choose an artist below to chat with.
+    </p>
+    <h1>Your Preview Is Ready</h1>
+    <p>You can download your tattoo mockup below. Remember: we do not store your images on our server.</p>
+    <hr>
+    <!-- Result image element for js/main.js -->
+    <img id="resultImage" alt="Tattoo result">
+    <!-- Artist recommendations injected here -->
+    <button id="downloadBtn" class="primary">Download</button>
+  </div>
 
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
+```
+```
+
+## 2. `css/style.css`
+
+```css
+/* Global reset and layout */
+body { … }
+.container { … }
+.cropper-container .cropper-view-box, … { … }
+.suggestions { … }
+/* Banner styling */
+.banner-container { … }
+.banner-container .banner-image { … }
+/* etc. */
+```
+
+## 3. `js/main.js`
+
+```js
+import { setupCropper } from './initCropper.js';
+import { attachPromptButtons } from './promptHelpers.js';
+
+const USE_FAKE_API = true;
+…
+submitBtn.addEventListener('click', async () => {
+  // fetch & fakeGenerateTattoo
+  // inject preview & artistList
+});
+```
+
+---
+
+_We can now update any of these files in place. Let me know which part you want to edit next!_
+
