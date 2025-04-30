@@ -113,5 +113,16 @@ hr {
   text-decoration: none;
 }
 
+.banner-container {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+.banner-container .banner-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
 
 
