@@ -27,22 +27,17 @@ body {
   border: 3px solid #4A90E2;
 }
 
-/* --- Suggestion-icon chips (300% size, 3 columns) --- */
 .suggestions {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  justify-items: center;
-  gap: 0.5rem;
-  margin: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 1rem;
+  overflow-x: auto;
+  padding-bottom: 8px;
 }
+
 .suggestions button {
-  width: 144px;    /* 48px × 3 for 300% */
-  height: 144px;
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  overflow: hidden;
+  margin: 0;
 }
 /* hide stray labels */
 .suggestions button span {
