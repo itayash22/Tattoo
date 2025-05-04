@@ -1,12 +1,3 @@
-# InkSight Codebase
-
-This canvas holds the current key files for the InkSight website so we can update them in place without re‑pasting every time.
-
----
-
-## 1. `index.html`
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,57 +19,39 @@ This canvas holds the current key files for the InkSight website so we can updat
     <div style="margin-top:1rem;">
       <img id="uploadedImage" class="hidden" alt="Upload preview">
     </div>
-   <div class="suggestions hidden" id="suggestions">
-    <button data-token=", biomechanical">
-        <img src="assets/styles/Biomechanical.png" alt="biomechanical">
-    </button>
-    <button data-token=", dotwork">
-        <img src="assets/styles/dotwork.png" alt="dotwork">
-    </button>
-    <button data-token=", fine line">
-        <img src="assets/styles/fine line.png" alt="fine line">
-    </button>
-    <button data-token=", geometric">
-        <img src="assets/styles/Geometric.png" alt="geometric">
-    </button>
-    <button data-token=", minimalist">
-        <img src="assets/styles/Minimal.png" alt="minimalist">
-    </button>
-    <button data-token=", ornamental">
-        <img src="assets/styles/Ornamental.png" alt="ornamental">
-    </button>
-    <button data-token=", script">
-        <img src="assets/styles/script.png" alt="script">
-    </button>
-    <button data-token=", tribal">
-        <img src="assets/styles/tribal.png" alt="tribal">
-    </button>
-    <button data-token=", watercolor">
-        <img src="assets/styles/watercolor.png" alt="watercolor">
-    </button>
-     <button data-token=", ornamental">
-        <img src="assets/styles/Ornamental.png" alt="ornamental">
-      </button>
-      <button data-token=", dotwork">
-        <img src="assets/styles/Dotwork.png" alt="dotwork">
-      </button>
-      ```
 
-**So the final section in `index.html` should look similar to this:**
-
-```html
+    <!-- Chips Section -->
     <div class="suggestions hidden" id="suggestions">
       <button data-token=", biomechanical">
         <img src="assets/styles/Biomechanical.png" alt="biomechanical">
       </button>
+      <button data-token=", dotwork">
+        <img src="assets/styles/dotwork.png" alt="dotwork">
+      </button>
+      <button data-token=", fine line">
+        <img src="assets/styles/fine line.png" alt="fine line">
+      </button>
+      <button data-token=", geometric">
+        <img src="assets/styles/Geometric.png" alt="geometric">
+      </button>
+      <button data-token=", minimalist">
+        <img src="assets/styles/Minimal.png" alt="minimalist">
+      </button>
       <button data-token=", ornamental">
         <img src="assets/styles/Ornamental.png" alt="ornamental">
       </button>
-      <button data-token=", dotwork">
-        <img src="assets/styles/Dotwork.png" alt="dotwork">
+      <button data-token=", script">
+        <img src="assets/styles/script.png" alt="script">
       </button>
-      </div>
-</div>
+      <button data-token=", tribal">
+        <img src="assets/styles/tribal.png" alt="tribal">
+      </button>
+      <button data-token=", watercolor">
+        <img src="assets/styles/watercolor.png" alt="watercolor">
+      </button>
+      <!-- Removed duplicates: ornamental, dotwork -->
+    </div>
+
     <textarea id="promptInput" class="hidden" rows="2" placeholder="Describe your tattoo (e.g. geometric, tribal)"></textarea>
     <button id="submitBtn" class="primary hidden">Generate Preview</button>
   </div>
@@ -93,42 +66,8 @@ This canvas holds the current key files for the InkSight website so we can updat
     <img id="resultImage" alt="Tattoo result">
     <!-- Artist recommendations injected here -->
     <button id="downloadBtn" class="primary">Download</button>
+  </div>
 
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
-```
-```
-
-## 2. `css/style.css`
-
-```css
-/* Global reset and layout */
-body { … }
-.container { … }
-.cropper-container .cropper-view-box, … { … }
-.suggestions { … }
-/* Banner styling */
-.banner-container { … }
-.banner-container .banner-image { … }
-/* etc. */
-```
-
-## 3. `js/main.js`
-
-```js
-import { setupCropper } from './initCropper.js';
-import { attachPromptButtons } from './promptHelpers.js';
-
-const USE_FAKE_API = true;
-…
-submitBtn.addEventListener('click', async () => {
-  // fetch & fakeGenerateTattoo
-  // inject preview & artistList
-});
-```
-
----
-
-_We can now update any of these files in place. Let me know which part you want to edit next!_
-
