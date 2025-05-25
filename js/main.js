@@ -17,6 +17,7 @@ const resultImage = document.getElementById('resultImage');
 const downloadBtn = document.getElementById('downloadBtn');
 
 let cropper;
+let currentOriginalFilename; // Variable to store the original filename
 
 // Fake API: returns a dummy tattoo preview + artist recommendations
 function fakeGenerateTattoo() {
@@ -69,6 +70,9 @@ document.addEventListener('touchstart', (e) => {
 fileInput.addEventListener('change', () => {
   const file = fileInput.files[0];
   if (!file) return;
+
+  currentOriginalFilename = file.name; // Store the original filename
+
   img.src = URL.createObjectURL(file);
   img.classList.remove('hidden');
 
@@ -103,6 +107,7 @@ submitBtn.addEventListener('click', async () => {
     form.append('image', blob, 'crop.jpg');
     form.append('prompt', promptInput.value);
     form.append('cropData', JSON.stringify(cropData));
+    form.append('originalFilename', currentOriginalFilename); // Append the original filename
 
     const resp = await fetch('/api/generate-tattoo', { method: 'POST', body: form });
     data = await resp.json();
