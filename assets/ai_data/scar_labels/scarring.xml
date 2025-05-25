@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 1 - shared</folder>
+	<filename>scarring.png</filename>
+	<path>C:\Itay\tattoo\scar\batch 1 - shared\scarring.png</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1280</width>
+		<height>800</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>1</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>419</xmin>
+			<ymin>102</ymin>
+			<xmax>1084</xmax>
+			<ymax>800</ymax>
+		</bndbox>
+	</object>
+</annotation>

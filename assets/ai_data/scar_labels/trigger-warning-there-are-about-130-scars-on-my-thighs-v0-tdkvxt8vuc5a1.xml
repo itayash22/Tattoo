@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>trigger-warning-there-are-about-130-scars-on-my-thighs-v0-tdkvxt8vuc5a1.jpg</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\trigger-warning-there-are-about-130-scars-on-my-thighs-v0-tdkvxt8vuc5a1.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>3506</width>
+		<height>1769</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>406</xmin>
+			<ymin>159</ymin>
+			<xmax>3477</xmax>
+			<ymax>1632</ymax>
+		</bndbox>
+	</object>
+</annotation>

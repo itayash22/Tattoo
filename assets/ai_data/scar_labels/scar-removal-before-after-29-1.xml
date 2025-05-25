@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>scar-removal-before-after-29-1.jpg</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\scar-removal-before-after-29-1.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>240</width>
+		<height>182</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>46</xmin>
+			<ymin>52</ymin>
+			<xmax>190</xmax>
+			<ymax>161</ymax>
+		</bndbox>
+	</object>
+</annotation>

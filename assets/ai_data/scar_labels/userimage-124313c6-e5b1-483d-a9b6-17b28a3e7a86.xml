@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>userimage-124313c6-e5b1-483d-a9b6-17b28a3e7a86.webp</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\userimage-124313c6-e5b1-483d-a9b6-17b28a3e7a86.webp</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>307</width>
+		<height>545</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>103</xmin>
+			<ymin>266</ymin>
+			<xmax>209</xmax>
+			<ymax>341</ymax>
+		</bndbox>
+	</object>
+</annotation>

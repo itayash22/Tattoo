@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>Seeking-Damages-for-Scarring-and-Disfigurement-in-an-Injury-Lawsuit-300x200.jpeg</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\Seeking-Damages-for-Scarring-and-Disfigurement-in-an-Injury-Lawsuit-300x200.jpeg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>300</width>
+		<height>200</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>70</xmin>
+			<ymin>45</ymin>
+			<xmax>219</xmax>
+			<ymax>96</ymax>
+		</bndbox>
+	</object>
+</annotation>
