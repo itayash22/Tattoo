@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>burn-scars-on-hands-extend-260nw-2573468723.webp</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\burn-scars-on-hands-extend-260nw-2573468723.webp</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>196</width>
+		<height>280</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>64</xmin>
+			<ymin>114</ymin>
+			<xmax>118</xmax>
+			<ymax>165</ymax>
+		</bndbox>
+	</object>
+</annotation>

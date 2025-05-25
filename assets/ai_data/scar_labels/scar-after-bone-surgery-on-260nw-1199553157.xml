@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>scar-after-bone-surgery-on-260nw-1199553157.webp</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\scar-after-bone-surgery-on-260nw-1199553157.webp</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>172</width>
+		<height>280</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>63</xmin>
+			<ymin>78</ymin>
+			<xmax>113</xmax>
+			<ymax>193</ymax>
+		</bndbox>
+	</object>
+</annotation>

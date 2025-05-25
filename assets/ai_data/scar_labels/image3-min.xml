@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 1 - shared</folder>
+	<filename>image3-min.jpg</filename>
+	<path>C:\Itay\tattoo\scar\batch 1 - shared\image3-min.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>4491</width>
+		<height>2995</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>809</xmin>
+			<ymin>834</ymin>
+			<xmax>3256</xmax>
+			<ymax>1263</ymax>
+		</bndbox>
+	</object>
+</annotation>

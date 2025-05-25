@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>1-20190109_163530-002-768x1024.jpg</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\1-20190109_163530-002-768x1024.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>768</width>
+		<height>1024</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>370</xmin>
+			<ymin>236</ymin>
+			<xmax>484</xmax>
+			<ymax>866</ymax>
+		</bndbox>
+	</object>
+</annotation>

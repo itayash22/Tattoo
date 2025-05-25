@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 1 - shared</folder>
+	<filename>GettyImages-518094362-768x509.jpg</filename>
+	<path>C:\Itay\tattoo\scar\batch 1 - shared\GettyImages-518094362-768x509.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>768</width>
+		<height>509</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>169</xmin>
+			<ymin>119</ymin>
+			<xmax>564</xmax>
+			<ymax>266</ymax>
+		</bndbox>
+	</object>
+</annotation>

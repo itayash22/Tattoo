@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>Jilet-Yarasi-Tedavisi-1024x683.png</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\Jilet-Yarasi-Tedavisi-1024x683.png</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1024</width>
+		<height>683</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>358</xmin>
+			<ymin>193</ymin>
+			<xmax>505</xmax>
+			<ymax>638</ymax>
+		</bndbox>
+	</object>
+</annotation>

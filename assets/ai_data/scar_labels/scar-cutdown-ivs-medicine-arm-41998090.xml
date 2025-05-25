@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>scar-cutdown-ivs-medicine-arm-41998090.webp</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\scar-cutdown-ivs-medicine-arm-41998090.webp</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>800</width>
+		<height>534</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>296</xmin>
+			<ymin>134</ymin>
+			<xmax>478</xmax>
+			<ymax>343</ymax>
+		</bndbox>
+	</object>
+</annotation>

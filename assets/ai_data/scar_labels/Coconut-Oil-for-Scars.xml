@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>Coconut-Oil-for-Scars.jpg</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\Coconut-Oil-for-Scars.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>800</width>
+		<height>600</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>303</xmin>
+			<ymin>275</ymin>
+			<xmax>505</xmax>
+			<ymax>368</ymax>
+		</bndbox>
+	</object>
+</annotation>

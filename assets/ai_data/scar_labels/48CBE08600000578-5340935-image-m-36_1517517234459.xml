@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>48CBE08600000578-5340935-image-m-36_1517517234459.jpg</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\48CBE08600000578-5340935-image-m-36_1517517234459.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>306</width>
+		<height>408</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>129</xmin>
+			<ymin>17</ymin>
+			<xmax>154</xmax>
+			<ymax>295</ymax>
+		</bndbox>
+	</object>
+</annotation>

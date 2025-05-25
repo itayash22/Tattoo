@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>How_Effective_Is_Scar_Treatment_637424312799128905-340x230.png</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\How_Effective_Is_Scar_Treatment_637424312799128905-340x230.png</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>340</width>
+		<height>230</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>127</xmin>
+			<ymin>104</ymin>
+			<xmax>214</xmax>
+			<ymax>143</ymax>
+		</bndbox>
+	</object>
+</annotation>

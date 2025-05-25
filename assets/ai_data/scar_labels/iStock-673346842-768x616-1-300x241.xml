@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>iStock-673346842-768x616-1-300x241.webp</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\iStock-673346842-768x616-1-300x241.webp</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>300</width>
+		<height>241</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>89</xmin>
+			<ymin>46</ymin>
+			<xmax>196</xmax>
+			<ymax>174</ymax>
+		</bndbox>
+	</object>
+</annotation>

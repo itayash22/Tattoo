@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>scar-on-arm-health-care-260nw-1070315564.webp</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\scar-on-arm-health-care-260nw-1070315564.webp</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>347</width>
+		<height>280</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>106</xmin>
+			<ymin>81</ymin>
+			<xmax>284</xmax>
+			<ymax>111</ymax>
+		</bndbox>
+	</object>
+</annotation>

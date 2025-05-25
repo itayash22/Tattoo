@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>close-cyanotic-keloid-scar-caused-260nw-1577204926.webp</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\close-cyanotic-keloid-scar-caused-260nw-1577204926.webp</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>390</width>
+		<height>280</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>19</xmin>
+			<ymin>118</ymin>
+			<xmax>362</xmax>
+			<ymax>162</ymax>
+		</bndbox>
+	</object>
+</annotation>

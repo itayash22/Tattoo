@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>can-you-fade-surgery-scars-v0-9thdtoherd4b1.webp</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\can-you-fade-surgery-scars-v0-9thdtoherd4b1.webp</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>480</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>182</xmin>
+			<ymin>93</ymin>
+			<xmax>314</xmax>
+			<ymax>394</ymax>
+		</bndbox>
+	</object>
+</annotation>

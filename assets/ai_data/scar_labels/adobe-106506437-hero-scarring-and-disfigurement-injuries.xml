@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>adobe-106506437-hero-scarring-and-disfigurement-injuries.webp</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\adobe-106506437-hero-scarring-and-disfigurement-injuries.webp</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>900</width>
+		<height>675</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>236</xmin>
+			<ymin>166</ymin>
+			<xmax>751</xmax>
+			<ymax>354</ymax>
+		</bndbox>
+	</object>
+</annotation>

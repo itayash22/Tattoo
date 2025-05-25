@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 1 - shared</folder>
+	<filename>depositphotos_432391256-stock-photo-scar-skin-person-woman-keloid.jpg</filename>
+	<path>C:\Itay\tattoo\scar\batch 1 - shared\depositphotos_432391256-stock-photo-scar-skin-person-woman-keloid.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1600</width>
+		<height>1167</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>439</xmin>
+			<ymin>571</ymin>
+			<xmax>1087</xmax>
+			<ymax>691</ymax>
+		</bndbox>
+	</object>
+</annotation>

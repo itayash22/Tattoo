@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>360_F_1153965332_g1ebiCFC1Hyiyv7EBL1na8zGFv6BIPWW.jpg</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\360_F_1153965332_g1ebiCFC1Hyiyv7EBL1na8zGFv6BIPWW.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>360</width>
+		<height>360</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>66</xmin>
+			<ymin>118</ymin>
+			<xmax>357</xmax>
+			<ymax>342</ymax>
+		</bndbox>
+	</object>
+</annotation>

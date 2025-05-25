@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 1 - shared</folder>
+	<filename>laser-narben-2500x1667.jpg</filename>
+	<path>C:\Itay\tattoo\scar\batch 1 - shared\laser-narben-2500x1667.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>2500</width>
+		<height>1667</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>671</xmin>
+			<ymin>583</ymin>
+			<xmax>1773</xmax>
+			<ymax>1107</ymax>
+		</bndbox>
+	</object>
+</annotation>

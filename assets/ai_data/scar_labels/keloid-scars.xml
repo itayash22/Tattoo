@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>keloid-scars.jpg</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\keloid-scars.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1728</width>
+		<height>1244</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>618</xmin>
+			<ymin>671</ymin>
+			<xmax>756</xmax>
+			<ymax>825</ymax>
+		</bndbox>
+	</object>
+</annotation>

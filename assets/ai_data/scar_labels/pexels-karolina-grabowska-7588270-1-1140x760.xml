@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>pexels-karolina-grabowska-7588270-1-1140x760.jpg</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\pexels-karolina-grabowska-7588270-1-1140x760.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1140</width>
+		<height>760</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>608</xmin>
+			<ymin>349</ymin>
+			<xmax>1015</xmax>
+			<ymax>565</ymax>
+		</bndbox>
+	</object>
+</annotation>

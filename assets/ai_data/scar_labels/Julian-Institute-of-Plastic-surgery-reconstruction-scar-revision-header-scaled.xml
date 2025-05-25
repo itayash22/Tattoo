@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 1 - shared</folder>
+	<filename>Julian-Institute-of-Plastic-surgery-reconstruction-scar-revision-header-scaled.jpg</filename>
+	<path>C:\Itay\tattoo\scar\batch 1 - shared\Julian-Institute-of-Plastic-surgery-reconstruction-scar-revision-header-scaled.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>2560</width>
+		<height>1707</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>1468</xmin>
+			<ymin>246</ymin>
+			<xmax>1922</xmax>
+			<ymax>1703</ymax>
+		</bndbox>
+	</object>
+</annotation>

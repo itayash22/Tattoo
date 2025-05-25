@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>p04b9tvs.jpg.webp</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\p04b9tvs.jpg.webp</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>480</width>
+		<height>270</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>199</xmin>
+			<ymin>107</ymin>
+			<xmax>284</xmax>
+			<ymax>192</ymax>
+		</bndbox>
+	</object>
+</annotation>

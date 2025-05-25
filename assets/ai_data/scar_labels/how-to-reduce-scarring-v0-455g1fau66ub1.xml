@@ -1,0 +1,26 @@
+<annotation>
+	<folder>batch 2</folder>
+	<filename>how-to-reduce-scarring-v0-455g1fau66ub1.webp</filename>
+	<path>C:\Itay\tattoo\scar\batch 2\how-to-reduce-scarring-v0-455g1fau66ub1.webp</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>1137</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>scar</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>137</xmin>
+			<ymin>379</ymin>
+			<xmax>480</xmax>
+			<ymax>646</ymax>
+		</bndbox>
+	</object>
+</annotation>
